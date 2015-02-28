@@ -20,14 +20,14 @@ songsAdminApp.directive("asAdminTitle", function() {
                 $scope.oldTitle = angular.copy($scope.titleData);
                 $scope.titleData ={"selected":null};
                 $scope.AddNewTitle = true;
-            }
+            };
 
             $scope.disableNewSongTitle = function(){
                 $scope.EditDiv = false;
                 if($scope.AddNewTitle)
                   $scope.titleData = angular.copy($scope.oldTitle);
                 $scope.AddNewTitle = false;
-            }
+            };
 
             $scope.$watch('titleId',function(newValue,oldValue){
                 if(newValue==oldValue)
@@ -35,5 +35,5 @@ songsAdminApp.directive("asAdminTitle", function() {
                 $scope.titleData = _.findWhere($scope.titleList,{"id":$scope.titleId});
             });
         }
-    }
+    };
 });

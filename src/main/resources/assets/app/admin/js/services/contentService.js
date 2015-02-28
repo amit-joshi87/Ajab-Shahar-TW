@@ -25,7 +25,7 @@ var contentService = function ($http) {
 
   var getAllReflections = function(){
      return $http.get('/api/reflections/all');
-  }
+  };
 
   return {
     getAllPeople:getAllPeople,
