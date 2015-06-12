@@ -17,8 +17,7 @@ describe("Song Explore controller", function () {
             songsContentService: _songsContentService_
         });
         httpBackend.when('GET', '/api/songs/getPublishedSongs/18').respond(song_explore_testSong);
-        httpBackend.when('GET', '/api/words/reflections?ids=6&ids=4').respond(song_explore_reflectionSummaries);
-        httpBackend.when('GET', '/api/words/songs?ids=6&ids=4').respond(song_explore_songSummaries);
+        httpBackend.when('GET', '/api/words/?ids=6&ids=4&representation=custom').respond(song_explore_wordCustomSummaries);
     }));
 
 
@@ -169,7 +168,7 @@ var song_explore_testSong = {
                 "primaryOccupation": null
             },
             "published": true,
-            "thumbnailImg": null,
+            "thumbnailURL": null,
             "excerpt": "“When the words of a poem start occupying your stomach instead of your cerebral cortex (through music), it’s a complete transformation in your experience of the so-called poem!”",
             "duration": "5:00",
             "verb": "says",
@@ -185,7 +184,7 @@ var song_explore_testSong = {
                 "primaryOccupation": null
             },
             "published": true,
-            "thumbnailImg": null,
+            "thumbnailURL": null,
             "excerpt": null,
             "duration": null,
             "verb": "says",
@@ -194,7 +193,7 @@ var song_explore_testSong = {
     ]
 };
 
-var song_explore_reflectionSummaries =
+var song_explore_wordCustomSummaries =
     [
         {
             word: {
@@ -214,7 +213,7 @@ var song_explore_reflectionSummaries =
                     "title": "reflection",
                     "speaker": null,
                     "published": true,
-                    "thumbnailImg": null,
+                    "thumbnailURL": null,
                     "excerpt": null,
                     "duration": null,
                     "verb": "by",
@@ -230,7 +229,7 @@ var song_explore_reflectionSummaries =
                         "primaryOccupation": null
                     },
                     "published": false,
-                    "thumbnailImg": null,
+                    "thumbnailURL": null,
                     "excerpt": null,
                     "duration": null,
                     "verb": "reflec",
@@ -246,7 +245,7 @@ var song_explore_reflectionSummaries =
                         "primaryOccupation": null
                     },
                     "published": true,
-                    "thumbnailImg": null,
+                    "thumbnailURL": null,
                     "excerpt": "“When the words of a poem start occupying your stomach instead of your cerebral cortex (through music), it’s a complete transformation in your experience of the so-called poem!”",
                     "duration": "5:00",
                     "verb": "says",
@@ -262,11 +261,88 @@ var song_explore_reflectionSummaries =
                         "primaryOccupation": null
                     },
                     "published": true,
-                    "thumbnailImg": "http://files1.coloribus.com/files/adsarchive/part_807/8077505/file/halls-light-cough-sweets-unbelievable-small-56470.jpg",
+                    "thumbnailURL": "http://files1.coloribus.com/files/adsarchive/part_807/8077505/file/halls-light-cough-sweets-unbelievable-small-56470.jpg",
                     "excerpt": "Angela Belcher looks to nature for inspiration on how to engineer viruses to create extraordinary new materials",
                     "duration": "10:00",
                     "verb": "says",
                     "contentType": "video"
+                }
+            ],
+            "songs": [
+                {
+                    "id": 6,
+                    "englishTranslationTitle": "The Cart of Meditation is Tottering",
+                    "englishTransliterationTitle": "Bhajan Ro Gudak Rahyo Gaado",
+                    "singers": [
+                        {
+                            "id": 14,
+                            "name": "Gavra Devi",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "poet": [
+                        {
+                            "id": 17,
+                            "name": "Fakru",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "duration": "05:10",
+                    "category": "Songs",
+                    "thumbnailUrl": "https://farm9.staticflickr.com/8588/15609516253_155aac2066_o.jpg",
+                    "publish": true
+                },
+                {
+                    "id": 8,
+                    "englishTranslationTitle": "In This Body",
+                    "englishTransliterationTitle": "Hiye Kaaya Mein",
+                    "singers": [
+                        {
+                            "id": 32,
+                            "name": "Kaluram Bamaniya",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "poet": [
+                        {
+                            "id": 11,
+                            "name": "Kabir",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "duration": "04.55",
+                    "category": "Songs",
+                    "thumbnailUrl": "https://farm9.staticflickr.com/8632/15663990083_cac15c4210_o.jpg",
+                    "publish": true
+                },
+                {
+                    "id": 118,
+                    "englishTranslationTitle": "1111 In This Body",
+                    "englishTransliterationTitle": "111 Hiye Kaaya Mein",
+                    "singers": [
+                        {
+                            "id": 32,
+                            "name": "Kaluram Bamaniya",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "poet": [
+                        {
+                            "id": 11,
+                            "name": "Kabir",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "duration": "04.55",
+                    "category": "Songs",
+                    "thumbnailUrl": "https://farm9.staticflickr.com/8632/15663990083_cac15c4210_o.jpg",
+                    "publish": false
                 }
             ]
         },
@@ -293,7 +369,7 @@ var song_explore_reflectionSummaries =
                         "primaryOccupation": null
                     },
                     "published": true,
-                    "thumbnailImg": null,
+                    "thumbnailURL": null,
                     "excerpt": null,
                     "duration": null,
                     "verb": "reflection",
@@ -309,231 +385,126 @@ var song_explore_reflectionSummaries =
                         "primaryOccupation": null
                     },
                     "published": true,
-                    "thumbnailImg": null,
+                    "thumbnailURL": null,
                     "excerpt": null,
                     "duration": null,
                     "verb": "says",
                     "contentType": "video"
                 }
+            ],
+            "songs": [
+                {
+                    "id": 11,
+                    "englishTranslationTitle": "Everyday I Ask For Your Well Being",
+                    "englishTransliterationTitle": "Nit Khair Manga",
+                    "singers": [
+                        {
+                            "id": 25,
+                            "name": "Mukhtiyar Ali",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "poet": [
+                        {
+                            "id": 26,
+                            "name": "Badar Muneer",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "duration": "07:45",
+                    "category": "Songs",
+                    "thumbnailUrl": "https://farm8.staticflickr.com/7583/16097980187_72dfa07068_o.png",
+                    "publish": true
+                },
+                {
+                    "id": 5,
+                    "englishTranslationTitle": "In This Body",
+                    "englishTransliterationTitle": "Hiye Kaaya Mein",
+                    "singers": [
+                        {
+                            "id": 10,
+                            "name": "Mooralala Marwada",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        },
+                        {
+                            "id": 21,
+                            "name": "Sumar Kadu Jat",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        },
+                        {
+                            "id": 27,
+                            "name": "Parvathy Baul",
+                            "hindiName": "",
+                            "primaryOccupation": "Singer"
+                        }
+                    ],
+                    "poet": [
+                        {
+                            "id": 24,
+                            "name": "Shah Abdul Latif Bhitai",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "duration": "07:05",
+                    "category": "Songs",
+                    "thumbnailUrl": "https://farm8.staticflickr.com/7513/16257916986_baf4e108cb_o.jpg",
+                    "publish": true
+                },
+                {
+                    "id": 18,
+                    "englishTranslationTitle": "When the mind’s intoxicated",
+                    "englishTransliterationTitle": "Mann Mast Hua Phir Kya Bole?",
+                    "singers": [
+                        {
+                            "id": 15,
+                            "name": "Shabnam Virmani",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "poet": [
+                        {
+                            "id": 13,
+                            "name": "Kabir",
+                            "hindiName": "कबीर",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "duration": "7:15",
+                    "category": "Songs",
+                    "thumbnailUrl": "http://gaatha.com/wp-content/uploads/2013/06/Kabir-das-ji.jpg",
+                    "publish": true
+                },
+                {
+                    "id": 19,
+                    "englishTranslationTitle": "When the mind’s intoxicated 22",
+                    "englishTransliterationTitle": "Mann Mast Hua Phir Kya Bole? 22",
+                    "singers": [
+                        {
+                            "id": 15,
+                            "name": "Shabnam Virmani",
+                            "hindiName": "",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "poet": [
+                        {
+                            "id": 13,
+                            "name": "Kabir",
+                            "hindiName": "कबीर",
+                            "primaryOccupation": null
+                        }
+                    ],
+                    "duration": "7:15",
+                    "category": "Songs",
+                    "thumbnailUrl": "http://gaatha.com/wp-content/uploads/2013/06/Kabir-das-ji.jpg",
+                    "publish": true
+                }
             ]
         }];
 
-var song_explore_songSummaries = [
-    {
-        "word": {
-            "id": 6,
-            "wordOriginal": "जागना सोना",
-            "wordTranslation": "Waking Sleeping",
-            "wordTransliteration": "Jaagna Sona",
-            "hindiIntroExcerpt": "",
-            "englishIntroExcerpt": "",
-            "writers": [],
-            "rootWord": true,
-            "publish": true
-        },
-        "songs": [
-            {
-                "id": 6,
-                "englishTranslationTitle": "The Cart of Meditation is Tottering",
-                "englishTransliterationTitle": "Bhajan Ro Gudak Rahyo Gaado",
-                "singers": [
-                    {
-                        "id": 14,
-                        "name": "Gavra Devi",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "poet": [
-                    {
-                        "id": 17,
-                        "name": "Fakru",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "duration": "05:10",
-                "category": "Songs",
-                "thumbnailUrl": "https://farm9.staticflickr.com/8588/15609516253_155aac2066_o.jpg",
-                "publish": true
-            },
-            {
-                "id": 8,
-                "englishTranslationTitle": "In This Body",
-                "englishTransliterationTitle": "Hiye Kaaya Mein",
-                "singers": [
-                    {
-                        "id": 32,
-                        "name": "Kaluram Bamaniya",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "poet": [
-                    {
-                        "id": 11,
-                        "name": "Kabir",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "duration": "04.55",
-                "category": "Songs",
-                "thumbnailUrl": "https://farm9.staticflickr.com/8632/15663990083_cac15c4210_o.jpg",
-                "publish": true
-            },
-            {
-                "id": 118,
-                "englishTranslationTitle": "1111 In This Body",
-                "englishTransliterationTitle": "111 Hiye Kaaya Mein",
-                "singers": [
-                    {
-                        "id": 32,
-                        "name": "Kaluram Bamaniya",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "poet": [
-                    {
-                        "id": 11,
-                        "name": "Kabir",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "duration": "04.55",
-                "category": "Songs",
-                "thumbnailUrl": "https://farm9.staticflickr.com/8632/15663990083_cac15c4210_o.jpg",
-                "publish": false
-            }
-        ]
-    },
-    {
-        word: {
-            "id": 4,
-            "wordOriginal": "शून्य",
-            "wordTranslation": "Emptiness",
-            "wordTransliteration": "Shoonya",
-            "hindiIntroExcerpt": "Shoonya is literally zero",
-            "englishIntroExcerpt": "",
-            "writers": [],
-            "rootWord": true,
-            "publish": true
-        },
-        "songs": [
-            {
-                "id": 11,
-                "englishTranslationTitle": "Everyday I Ask For Your Well Being",
-                "englishTransliterationTitle": "Nit Khair Manga",
-                "singers": [
-                    {
-                        "id": 25,
-                        "name": "Mukhtiyar Ali",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "poet": [
-                    {
-                        "id": 26,
-                        "name": "Badar Muneer",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "duration": "07:45",
-                "category": "Songs",
-                "thumbnailUrl": "https://farm8.staticflickr.com/7583/16097980187_72dfa07068_o.png",
-                "publish": true
-            },
-            {
-                "id": 5,
-                "englishTranslationTitle": "In This Body",
-                "englishTransliterationTitle": "Hiye Kaaya Mein",
-                "singers": [
-                    {
-                        "id": 10,
-                        "name": "Mooralala Marwada",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    },
-                    {
-                        "id": 21,
-                        "name": "Sumar Kadu Jat",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    },
-                    {
-                        "id": 27,
-                        "name": "Parvathy Baul",
-                        "hindiName": "",
-                        "primaryOccupation": "Singer"
-                    }
-                ],
-                "poet": [
-                    {
-                        "id": 24,
-                        "name": "Shah Abdul Latif Bhitai",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "duration": "07:05",
-                "category": "Songs",
-                "thumbnailUrl": "https://farm8.staticflickr.com/7513/16257916986_baf4e108cb_o.jpg",
-                "publish": true
-            },
-            {
-                "id": 18,
-                "englishTranslationTitle": "When the mind’s intoxicated",
-                "englishTransliterationTitle": "Mann Mast Hua Phir Kya Bole?",
-                "singers": [
-                    {
-                        "id": 15,
-                        "name": "Shabnam Virmani",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "poet": [
-                    {
-                        "id": 13,
-                        "name": "Kabir",
-                        "hindiName": "कबीर",
-                        "primaryOccupation": null
-                    }
-                ],
-                "duration": "7:15",
-                "category": "Songs",
-                "thumbnailUrl": "http://gaatha.com/wp-content/uploads/2013/06/Kabir-das-ji.jpg",
-                "publish": true
-            },
-            {
-                "id": 19,
-                "englishTranslationTitle": "When the mind’s intoxicated 22",
-                "englishTransliterationTitle": "Mann Mast Hua Phir Kya Bole? 22",
-                "singers": [
-                    {
-                        "id": 15,
-                        "name": "Shabnam Virmani",
-                        "hindiName": "",
-                        "primaryOccupation": null
-                    }
-                ],
-                "poet": [
-                    {
-                        "id": 13,
-                        "name": "Kabir",
-                        "hindiName": "कबीर",
-                        "primaryOccupation": null
-                    }
-                ],
-                "duration": "7:15",
-                "category": "Songs",
-                "thumbnailUrl": "http://gaatha.com/wp-content/uploads/2013/06/Kabir-das-ji.jpg",
-                "publish": true
-            }
-        ]
-    }
-];

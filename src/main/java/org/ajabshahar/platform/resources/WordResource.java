@@ -8,6 +8,7 @@ import org.ajabshahar.platform.models.Word;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,12 +37,28 @@ public class WordResource {
 
     @GET
     @UnitOfWork
-    public Response listAllWordDetails(@DefaultValue("false") @QueryParam("showOnMainLandingPage") Boolean showOnMainLandingPage,
-                                       @DefaultValue("false") @QueryParam("publish") boolean publish) {
-        Set<Word> wordsList = words.findBy(showOnMainLandingPage, publish);
-        WordsRepresentation wordsRepresentation = wordRepresentationFactory.createWordsRepresentation(wordsList);
-        wordsRepresentation.removeUnPublishedPeople();
-        return Response.ok(wordsRepresentation).build();
+    public Response getWords(
+            @DefaultValue("false") @QueryParam("showOnMainLandingPage") Boolean showOnMainLandingPage,
+            @DefaultValue("false") @QueryParam("publish") boolean publish,
+            @QueryParam("ids")List<Long> ids,
+            @QueryParam("representation")String representation) {
+        if(ids != null && !ids.isEmpty()) {
+            Set<Word> wordsList = words.findWords(ids);
+            if(representation != null && representation.equals("custom") ){
+                return Response.ok(WordCustomRepresentation.fromWords(wordsList)).build();
+            }
+            else{
+                WordsRepresentation wordsRepresentation = wordRepresentationFactory.createWordsRepresentation(wordsList);
+                wordsRepresentation.removeUnPublishedPeople();
+                return Response.ok(wordsRepresentation).build();
+            }
+        }
+        else {
+            Set<Word> wordsList = words.findBy(showOnMainLandingPage, publish);
+            WordsRepresentation wordsRepresentation = wordRepresentationFactory.createWordsRepresentation(wordsList);
+            wordsRepresentation.removeUnPublishedPeople();
+            return Response.ok(wordsRepresentation).build();
+        }
     }
 
     @GET
@@ -54,8 +71,34 @@ public class WordResource {
 
         if(publish){
             intermediateRepresentation.removeUnPublishedPeople();
+            removeUnPublishedPeopleFromWordReflection(intermediateRepresentation);
+
         }
         return Response.ok(intermediateRepresentation).build();
+    }
+
+    private void removeUnPublishedPeopleFromWordReflection(WordRepresentation intermediateRepresentation) {
+        Set<ReflectionSummaryRepresentation> reflections = intermediateRepresentation.getReflections();
+        Set<ReflectionSummaryRepresentation> reflectionsWithOutUnPublishedPeople = new LinkedHashSet<>();
+        for (ReflectionSummaryRepresentation reflection : reflections) {
+            if(reflection.getSpeaker().isPublish()) {
+                reflectionsWithOutUnPublishedPeople.add(reflection);
+            }
+            else {
+                reflection.setSpeaker(null);
+                reflectionsWithOutUnPublishedPeople.add(reflection);
+            }
+        }
+
+        intermediateRepresentation.setReflections(reflectionsWithOutUnPublishedPeople);
+
+        if(intermediateRepresentation.getDefaultReflection() != null
+                && intermediateRepresentation.getDefaultReflection().getSpeaker() != null
+                && !intermediateRepresentation.getDefaultReflection().getSpeaker().isPublish()) {
+            ReflectionSummaryRepresentation defaultReflection = intermediateRepresentation.getDefaultReflection();
+            defaultReflection.setSpeaker(null);
+            intermediateRepresentation.setDefaultReflection(defaultReflection);
+        }
     }
 
 

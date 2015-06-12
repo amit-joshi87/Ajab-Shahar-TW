@@ -42,48 +42,19 @@ var songDetailsController = function ($scope, $location, songsContentService) {
         carouselOpen = !carouselOpen;
     };
 
-    var getSongsLyrics = function (song) {
-        $scope.songText.songTextContents = [];
-        $scope.songText.openingCouplets = [];
-        $scope.refrainOriginal = song.songText.refrainOriginal;
-        $scope.refrainTranslation = song.songText.refrainEnglishTranslation;
-        $scope.refrainTransliteration = song.songText.refrainEnglishTransliteration;
-
-
-        sortedSongTextComponents = _.sortBy(song.songText.songTextContents, function (songTextComponent) {
-            return songTextComponent.sequenceNumber;
-        });
-        for (index in sortedSongTextComponents) {
-            var item = sortedSongTextComponents[index];
-            $scope.songText.songTextContents.push(item);
-        }
-
-        sortedSongTextComponents = _.sortBy(song.songText.openingCouplets, function (openingCouplet) {
-            return openingCouplet.sequenceNumber;
-        });
-        for (index in sortedSongTextComponents) {
-            var item = sortedSongTextComponents[index];
-            $scope.songText.openingCouplets.push(item);
-        }
-    };
-
     $scope.selectThumbnail = function (thumbnail) {
         if(thumbnail != null){
             songsContentService.getSong(thumbnail.id).success(function (response) {
                 $scope.detailsObject = new AjabShahar.DetailsObject(response, thumbnail.type);
-                $scope.selectedSong = response;
+                $scope.selectedSong = response || {};
 
                 initialiseMainTitles();
-                getSongsLyrics($scope.selectedSong)
-
             });
         }
     };
 
     $scope.hasSongText = function () {
-        if ($scope.selectedSong.songText != null && $scope.selectedSong.songText.songTextContents.length > 0)
-            return true;
-        return false;
+        return !_.isEmpty($scope.selectedSong.songText) && (!_.isEmpty($scope.selectedSong.songText.original) || !_.isEmpty($scope.selectedSong.songText.translation) || !_.isEmpty($scope.selectedSong.songText.transliteration));
     };
 
     var initialiseMainTitles = function () {

@@ -1,5 +1,6 @@
 package org.ajabshahar.platform.resources;
 
+import com.google.gson.Gson;
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
@@ -7,6 +8,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import net.minidev.json.JSONObject;
+import org.ajabshahar.DataSetup;
 import org.ajabshahar.api.PersonSummaryRepresentation;
 import org.ajabshahar.api.SongRepresentation;
 import org.ajabshahar.api.SongsRepresentation;
@@ -14,6 +16,7 @@ import org.ajabshahar.platform.PlatformApplication;
 import org.ajabshahar.platform.PlatformConfiguration;
 import org.ajabshahar.platform.models.Gathering;
 import org.ajabshahar.platform.models.Song;
+import org.ajabshahar.platform.models.SongText;
 import org.ajabshahar.platform.models.Title;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.Before;
@@ -21,16 +24,12 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import javax.ws.rs.core.NewCookie;
-
 import java.util.Set;
 
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
 import static org.ajabshahar.DataSetup.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 public class SongResourceIT {
 
@@ -63,13 +62,14 @@ public class SongResourceIT {
         dbSetup.launch();
 
         Title title = new Title();
-        title.setId(1);
+        title.setEnglishTranslation("whatever in english");
+        title.setEnglishTranslation("whatever in hindi");
 
         JSONObject jsonReflection = new JSONObject();
 
         jsonReflection.put("songTitle", title);
         jsonReflection.put("soundCloudTrackId", "1");
-        title.setId(2);
+
         jsonReflection.put("umbrellaTitle", title);
         jsonReflection.put("duration", "2");
 
@@ -78,14 +78,14 @@ public class SongResourceIT {
         Song song = getSong(songResponse);
 
         assertThat(song.getId(), is(not(0)));
-        assertThat(song.getUmbrellaTitle().getId(), is(2L));
+        assertThat(song.getUmbrellaTitle().getId(), is(not(0)));
         assertThat(song.getDuration(), is("2"));
         assertThat(song.getSoundCloudTrackId(), is("1"));
     }
 
     @Test
     public void shouldGetSongRepresentationWithWords() throws Exception {
-        Operation operation = sequenceOf(DELETE_ALL, INSERT_CATEGORY, INSERT_GATHERINGS, INSERT_SONGS_AND_TITLE, INSERT_REFLECTIONS, INSERT_WORDS, INSERT_SONG_WORD);
+        Operation operation = sequenceOf(DELETE_ALL, INSERT_CATEGORY, DataSetup.INSERT_PERSON, INSERT_GATHERINGS, INSERT_SONGS_AND_TITLE, INSERT_REFLECTIONS, INSERT_WORDS, INSERT_SONG_WORD);
 
         DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
         dbSetup.launch();
@@ -168,13 +168,14 @@ public class SongResourceIT {
         dbSetup.launch();
 
         Title title = new Title();
-        title.setId(1);
+        title.setEnglishTranslation("something1");
+        title.setEnglishTransliteration("something12");
 
         JSONObject jsonReflection = new JSONObject();
 
         jsonReflection.put("songTitle", title);
         jsonReflection.put("soundCloudTrackId", "1");
-        title.setId(2);
+
         jsonReflection.put("umbrellaTitle", title);
         jsonReflection.put("duration", "2");
         Gathering gathering = new Gathering();
@@ -221,6 +222,85 @@ public class SongResourceIT {
         assertThat(songFromDb.getGathering().getId(), is(11L));
     }
 
+    @Test
+    public void shouldBeAbleToAddAndEditSongText(){
+        Operation operation = sequenceOf(DELETE_ALL, INSERT_CATEGORY, INSERT_SONG_TITLE_CATEGORY,
+                INSERT_UMBRELLA_TITLE_CATEGORY, INSERT_SONG_TITLE, INSERT_UMBRELLA_TITLE,INSERT_GATHERINGS, INSERT_SONGS);
+
+        DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
+        dbSetup.launch();
+
+        SongRepresentation songRepresentation = new Gson().fromJson(getSongWithSongText(), SongRepresentation.class);
+
+        ClientResponse songResponse = loginAndPost("http://localhost:%d/api/songs",songRepresentation);
+        Song song = getSong(songResponse);
+
+        long songId = song.getId();
+        ClientResponse response = client.resource(
+                String.format("http://localhost:%d/api/songs/"+ songId, RULE.getLocalPort())).header("Content-type", "application/json")
+                .get(ClientResponse.class);
+        songRepresentation = getSongRepresentation(response);
+
+        assertThat(songRepresentation.getId(), is(not(0)));
+        assertThat(songRepresentation.getSongText(),notNullValue());
+        assertThat(songRepresentation.getSongText().getTranslation(),is("Lost Lost Moon, Clear Eyes will be all night How will you sleep?"));
+
+        SongText songText = songRepresentation.getSongText();
+        songText.setOriginal(songText.getOriginal()+" - 2");
+        songText.setTranslation(songText.getTranslation()+" - 2");
+        songText.setTransliteration(songText.getTransliteration()+" - 2");
+
+        songResponse = loginAndPost("http://localhost:%d/api/songs",songRepresentation);
+
+        response = client.resource(
+                String.format("http://localhost:%d/api/songs/"+ songId, RULE.getLocalPort())).header("Content-type", "application/json")
+                .get(ClientResponse.class);
+        songRepresentation = getSongRepresentation(response);
+
+        assertThat(songRepresentation.getId(), is(songId));
+        assertThat(songRepresentation.getSongText(),notNullValue());
+        assertThat(songRepresentation.getSongText().getTranslation(),is("Lost Lost Moon, Clear Eyes will be all night How will you sleep? - 2"));
+
+    }
+
+    @Test
+    public void shouldFetchGivenSongWithRelatedContent(){
+        Operation operation = sequenceOf(DELETE_ALL, INSERT_COMPLETE_STARTER_SET);
+
+        DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
+        dbSetup.launch();
+
+        SongRepresentation song = getSong("1");
+
+        assertNotNull(song);
+        assertThat(song.getWords().size(), is(1));
+        assertThat(song.getSingers().size(), is(1));
+        assertNotNull(song.getSongTitle());
+        assertNotNull(song.getUmbrellaTitle());
+        assertNotNull(song.getGathering());
+        assertThat(song.getReflections().size(), is(1));
+    }
+
+    private SongRepresentation getSong(String id){
+        return getSongRepresentation(client.resource(
+                String.format("http://localhost:%d/api/songs/"+ id, RULE.getLocalPort())).header("Content-type", "application/json")
+                .get(ClientResponse.class));
+    }
+
+    private String getSongWithSongText(){
+        return "{\n" +
+                "  \"isAuthoringComplete\": true,\n" +
+                "  \"soundCloudTrackId\": \"174024475\",\n" +
+                "  \"songText\" :{\n" +
+                "       \"original\": \"खोया खोया चाँद, खुला आसमान आँखों में सारी रात जाएगी तुम को भी कैसे नींद आएगी?\"," +
+                "       \"translation\":\"Lost Lost Moon, Clear Eyes will be all night How will you sleep?\"," +
+                "       \"transliteration\":\"Khoya khoya chaand, khula aasmaan Aankhon mein saari raat jaayegi Tumko bhi kaise neend aayegi\"" +
+                "   },"+
+                "  \"songTitle\": {\n" +
+                "    \"id\": 3\n" +
+                "  }\n" +
+                "}";
+    }
     private SongsRepresentation getSongsRepresentation(ClientResponse response) {
         return response.getEntity(SongsRepresentation.class);
     }
@@ -241,6 +321,10 @@ public class SongResourceIT {
 
     private Song getSong(ClientResponse response) {
         return response.getEntity(Song.class);
+    }
+
+    private SongRepresentation getSongRepresentation(ClientResponse response) {
+        return response.getEntity(SongRepresentation.class);
     }
 
     private NewCookie geCookie(ClientResponse response) {

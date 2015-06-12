@@ -1,4 +1,5 @@
 <div ng-controller="allPeopleController">
+    <div class="people">
     <div id="page-wrapper" ng-random-class ng-classes="classes">
         <div class="main-content">
         <div class="ajab-container headerfixOuter">
@@ -12,7 +13,7 @@
 
             <div class="ajab-wrapper">
 
-                <div class="slide-nav-list " ng-show="expandFilter" on-click-outside="closeSecondParda()">
+                <div class="slide-nav-list " ng-show="expandFilter">
                     <!--first layer pardah-->
 
                     <div class="first-layer-list">
@@ -21,28 +22,38 @@
                             <li>
                                 <a href="javascript:void(0)"
                                    title="writers or speakers who have reflected on a song, poem or idea"
-                                   class="disable">speaker</a>
+                                   class="disable">bhakti poets</a>
 
-                                <div class="child-list">
-                                    <span>Lalit Lalit<a>x</a></span>
-                                </div>
                             </li>
                             <li>
                                 <a href="javascript:void(0)" title="words, metaphors or ideas in or about mystic poetry"
-                                   ng-click="openParda()">word</a>
-
-                                <div class="child-list">
-
-                                </div>
+                                   ng-click="openParda()">sufi poets</a>
                             </li>
                             <li>
                                 <a href="javascript:void(0)" title="reflections on various poets"
-                                   class="disable">poet</a>
-
-                                <div class="child-list">
-                                    <span>Roshan Lal<a>x</a></span>
-                                </div>
+                                   class="disable">baul poets</a>
                             </li>
+                            <li>
+                                <a href="javascript:void(0)" title="reflections on various poets"
+                                   class="disable">legendary figures</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" title="reflections on various poets"
+                                   class="disable">singers</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" title="reflections on various poets"
+                                   class="disable">writers</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" title="reflections on various poets"
+                                   class="disable">artists</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" title="reflections on various poets"
+                                   class="disable">other</a>
+                            </li>
+
 
                             <li class="reset-image"><a class="reset" ng-click="resetFilters()">reset</a></li>
                         </ul>
@@ -56,18 +67,17 @@
 
                         <div class='people-grid-wrapper'>
                             <div class='pagination-head'>
-                                <div class="upper">
+                                <div class="upper" ng-cloak>
 
                                     <span class='numeric-count'
                                           ng-if="numberOfPeople == 1">{{numberOfPeople}} PERSON</span>
                                     <span class='numeric-count'
-                                          ng-if="numberOfPeople > 1">{{numberOfPeople}} PEOPLE</span>
+                                          ng-if="numberOfPeople != 1">{{numberOfPeople}} PEOPLE</span>
                                 </div>
                                 <div class="lower">
                                     <ul class='alphabets'>
-                                        <li ng-repeat="alphabetFilter in ['ALL','A','B','C','D','E','F','G','H','I','J','K','L','M','N',
-                                            'O','P','Q','R','S','T','U','V','W','X','Y','Z']">
-                                            <a>{{alphabetFilter}}</a>
+                                        <li ng-repeat="letter in alphabetFilters" ng-click="applyAlphabetFilter(letter)">
+                                            <a ng-cloak>{{letter}}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -75,18 +85,16 @@
 
                             </div>
                             <ul>
-                                <div id="{{person.id}}" ng-repeat="(index,person) in people | orderBy : 'name'" class="row-wrapper">
+                                <div id="{{person.id}}" ng-repeat="(index,person) in people | orderBy : 'name'" on-ng-repeat-end="scrollTo" class="row-wrapper">
                                     <div class="image" >
                                         <img src="{{person.thumbnailImg}}">
                                     </div>
                                     <div class="people-wrapper">
                                         <div class="people-info" read-more>
 
-                                            <a href="/people/#/explore/{{person.id}}" target="_self"><span class="title">{{person.name}}</span></a>
-                                            <span class="job-title"><li ng-repeat="role in person.occupations track by $index" style="display: inline">
-                                                {{role}}
-                                                <span ng-hide="$last">,  </span>
-                                            </li></span>
+                                            <a href="/people/#/explore/{{person.id}}"  target="_self"><span class="title" ng-cloak>{{person.name}}</span></a>
+                                            <span class="job-title" ng-repeat="role in person.occupations track by $index" style="display: inline">{{role}}<span ng-hide="$last" class="comma-space">,</span>
+                                            </span>
                                             <div bind-dynamic-html = "person.profile"></div>
                                         </div>
                                         <a href="/people/#/explore/{{person.id}}" class="explore">Explore</a>
@@ -103,4 +111,5 @@
     </div>
     <ajab-shahar-footer></ajab-shahar-footer>
 </div>
+        </div>
 </div>

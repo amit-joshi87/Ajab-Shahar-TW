@@ -2,7 +2,6 @@ allSongsApp.controller('allSongsController', ['$scope', '$window', 'songsContent
     var songs = [];
     $scope.filteredSongList = [];
     $scope.activeLetter = '';
-    $scope.scrollIndex = 12;
     $scope.songCount = 0;
     $scope.expandFilter = false;
     $scope.filterItems = {};
@@ -56,6 +55,7 @@ allSongsApp.controller('allSongsController', ['$scope', '$window', 'songsContent
     $scope.filterItemSelected = function (filterValue) {
         sieve.setFilterCriteria($scope.selectedFilterCategory.name, filterValue);
         filterAndLoad(songs);
+        $scope.toggleExpandFilter();
     };
 
     $scope.closeSecondParda = function () {
@@ -104,12 +104,6 @@ allSongsApp.controller('allSongsController', ['$scope', '$window', 'songsContent
                 criterion.empty = !!_.isEmpty($scope.filterItems[criterion.displayName]);
             }
         });
-    };
-
-    $scope.loadSongFromRange = function () {
-        if ($scope.scrollIndex > $scope.filteredSongList.length)
-            return;
-        $scope.scrollIndex += 12;
     };
 
     $scope.navigateToSong = function (id) {

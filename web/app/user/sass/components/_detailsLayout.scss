@@ -1,10 +1,11 @@
-.about-text {
-  text-align: left;
-}
+
 .details {
-    background: transparent url(/user/img/songs/song_detail_bg_tiledY.jpg) left top;
+    background: transparent url(/user/img/songs/song_detail_bg_tiledY.png) left top;
     background-repeat: no-repeat repeat;
     background-size: 100% auto;
+    .page-header {
+        z-index: $zIndex-detail-page-header;
+    }
     .no-pardah {
         background: none;
     }
@@ -49,6 +50,9 @@
                     color: $dark-grey;
                     padding-top: 15px;
                     font-weight: 300;
+                    a {
+                        color: $pink;
+                    }
                 }
 
 
@@ -61,16 +65,17 @@
                     margin-top: 1em;
                 }
                 .text-top-background{
-                    background: transparent url(/user/img/words/one.png) left top;
+                    background: transparent url(/user/img/words/word1.png);
                     background-repeat: no-repeat no-repeat;
-                    background-size: 100% 100%;
-                    height: 130px;
+                    background-size: 100% 216px;
+                    height: 216px;
+                    width: 100%;
 
                 }
                 .text-middle-background {
-                    background: transparent url(/user/img/words/two.png) left bottom;
+                    background: transparent url(/user/img/words/word2.png);
                     background-repeat: no-repeat repeat;
-                    background-size: 100% 100%;
+                    background-size: 100% 300px ;
                     width: 100%;
                     position: relative;
 
@@ -84,12 +89,12 @@
 
         }
         .detail-text-wrapper-bottom-image {
-              background: transparent url(/user/img/words/three.png) left 0px no-repeat;
-              height: 80px;
+              background: transparent url(/user/img/words/word3.png)  no-repeat;
+              height: 220px;
               width: 100%;
               position: relative;
               margin: 0 auto;
-              background-size: 100% 100%;
+              background-size: 100% 220px ;
         }
 
         
@@ -153,13 +158,19 @@
         .about-info {
             display: none;
             max-height: 260px;
-            margin: 45px 0;
+            margin: 15px 0;
             color: #666;
             font-size: 12px;
             font-family: 'Merriweather';
             font-weight: 300;
             overflow: auto;
             line-height: 21px;
+            a {
+                color: $pink;
+            }
+            p {
+                width: 98%;
+            }
         }
 
 
@@ -180,6 +191,12 @@
               color: #666;
               font-weight: 200;
               line-height: 20px;
+              padding: 10px 5px;
+            }
+            &:first-of-type {
+                & > li:first-of-type {
+                    padding-left: 0 !important;
+                }
             }
           }
 
@@ -395,6 +412,9 @@
             li {
                 background: none;
                 height: 15px;
+                a {
+                    font-size: $small;
+                }
 
             }
           }

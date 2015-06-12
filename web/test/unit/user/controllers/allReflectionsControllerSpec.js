@@ -25,7 +25,7 @@ describe("Reflection details controller", function () {
 
         $httpBackend.flush();
 
-        expect(scope.reflections.length).toBe(2);
+        expect(scope.reflectionsList.length).toBe(2);
     });
 
     it("should update reflections count", function () {
@@ -35,24 +35,32 @@ describe("Reflection details controller", function () {
         expect(scope.reflectionCount).toBe(2);
     });
 
+    it("should sort reflections based on title", function () {
+
+        $httpBackend.flush();
+
+        expect(scope.reflectionsList[0].englishTitle).toBe("oh that word!");
+        expect(scope.reflectionsList[1].englishTitle).toBe("Poet is God");
+    });
+
     it("should get thumbnail representation of reflections", function () {
 
         $httpBackend.flush();
 
-        expect(scope.reflections[0].type).toBe("reflection");
-        expect(scope.reflections[1].type).toBe("reflection");
+        expect(scope.reflectionsList[0].type).toBe("reflection");
+        expect(scope.reflectionsList[1].type).toBe("reflection");
 
-        expect(scope.reflections[0].id).toBe(9);
-        expect(scope.reflections[0].thumbnailImg).toBe("https://avatars2.githubusercontent.com/u/11533144?v=3&s=72");
-        expect(scope.reflections[0].description).toBe("hey this is excerpt");
-        expect(scope.reflections[0].verbPeople.verb).toBe("says");
-        expect(scope.reflections[0].verbPeople.people).toBe("Parvathy Baul");
-        expect(scope.reflections[0].englishTitle).toBe("oh that word!");
-        expect(scope.reflections[0].contentCategory).toBe("reflection");
-        expect(scope.reflections[0].duration).toBe("10:00");
-        expect(scope.reflections[0].contentFormat).toBe("video");
+        expect(scope.reflectionsList[0].id).toBe(9);
+        expect(scope.reflectionsList[0].thumbnailImg).toBe("https://avatars2.githubusercontent.com/u/11533144?v=3&s=72");
+        expect(scope.reflectionsList[0].description).toBe("hey this is excerpt");
+        expect(scope.reflectionsList[0].verbPeople.verb).toBe("says");
+        expect(scope.reflectionsList[0].verbPeople.people).toBe("Parvathy Baul");
+        expect(scope.reflectionsList[0].englishTitle).toBe("oh that word!");
+        expect(scope.reflectionsList[0].contentCategory).toBe("reflection");
+        expect(scope.reflectionsList[0].duration).toBe("10:00");
+        expect(scope.reflectionsList[0].contentFormat).toBe("video");
 
-        expect(scope.reflections[1].contentFormat).toBe("audio");
+        expect(scope.reflectionsList[1].contentFormat).toBe("audio");
     });
 
     it("should redirect to details page on clicking of reflection thumbnail", function () {
@@ -66,7 +74,7 @@ var test_reflections = {
     reflections: [
         {
             "showOnMainFcPage": true,
-            "thumbnailImg": "https://avatars2.githubusercontent.com/u/11533144?v=3&s=72",
+            "thumbnailURL": "https://avatars2.githubusercontent.com/u/11533144?v=3&s=72",
             "info": null,
             "about": "<p>ghsjdgLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Â </p>",
             "duration": "10:00",

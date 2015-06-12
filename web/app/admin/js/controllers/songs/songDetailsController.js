@@ -29,7 +29,7 @@ songsAdminApp.controller('songDetailsController', ['$scope', '$window', '$locati
             var persons = angular.forEach(personList, function (person) {
                 person.lastName = (Boolean(person.lastName)) ? person.lastName : '';
             });
-            return sortList(persons, 'firstName');
+            return sortList(persons, 'name');
         };
 
         $scope.isEmpty = function (value) {
@@ -51,16 +51,16 @@ songsAdminApp.controller('songDetailsController', ['$scope', '$window', '$locati
             var promises = [genrePromise, titlePromise, songCategoryPromise, mediaCategoryPromise, umbrellaTitlePromise, singerPromise, poetPromise, wordPromise, gatheringPromise, reflectionsPromise];
 
             $q.all(promises).then(function (data) {
-                $scope.genres = data[0].data;
-                $scope.songTitles = data[1].data;
+                $scope.genres = sortList(data[0].data,'english');
+                $scope.songTitles = sortList(data[1].data,'englishTransliteration');
                 $scope.songCategories = data[2].data;
                 $scope.mediaCategories = data[3].data;
-                $scope.umbrellaTitles = data[4].data;
+                $scope.umbrellaTitles = sortList(data[4].data,'englishTransliteration');
                 $scope.singers = removeNulls(data[5].data);
                 $scope.poets = removeNulls(data[6].data);
-                $scope.words = data[7].data.words;
-                $scope.gatherings = data[8].data;
-                $scope.reflections = data[9].data.reflections;
+                $scope.words = sortList(data[7].data.words,'wordTransliteration');
+                $scope.gatherings = sortList(data[8].data, 'english');
+                $scope.reflections = sortList(data[9].data.reflections, 'title');
                 $scope.song.songCategory = $scope.songCategories[0];
 
                 $scope.getSongData();
@@ -87,6 +87,9 @@ songsAdminApp.controller('songDetailsController', ['$scope', '$window', '$locati
         $scope.saveData = function () {
             setMediaCategory();
 
+            if ($scope.song.thumbnailURL && $scope.song.thumbnailURL.indexOf("http") === -1 && $scope.song.thumbnailURL.indexOf("/images/") === -1) {
+                $scope.song.thumbnailURL = '/images/' + $scope.song.thumbnailURL;
+            }
             songContentService.createSong($scope.song)
                 .error(function (data) {
                     alert(data);
@@ -115,15 +118,7 @@ songsAdminApp.controller('songDetailsController', ['$scope', '$window', '$locati
                 $scope.words = getSelectedContent(data.words, $scope.words);
                 $scope.reflections = getSelectedContent(data.reflections, $scope.reflections);
                 $scope.song = data;
-
-                if ($scope.song.songText) {
-                    $scope.song.songText.songTextContents = sortList($scope.song.songText.songTextContents, 'sequenceNumber');
-                } else {
-                    $scope.song.songText = {
-                        songTextContents: [],
-                        openingCouplets: []
-                    }
-                }
+                $scope.song.songText = $scope.song.songText || {};
             });
         };
 
@@ -134,6 +129,10 @@ songsAdminApp.controller('songDetailsController', ['$scope', '$window', '$locati
         $scope.updateSong = function () {
             setMediaCategory();
             $scope.song.publishedDate = null;
+
+            if ($scope.song.thumbnailURL && $scope.song.thumbnailURL.indexOf("http") === -1 && $scope.song.thumbnailURL.indexOf("/images/") === -1) {
+                $scope.song.thumbnailURL = '/images/' + $scope.song.thumbnailURL;
+            }
 
             songContentService.editSong($scope.song)
                 .error(function (data) {

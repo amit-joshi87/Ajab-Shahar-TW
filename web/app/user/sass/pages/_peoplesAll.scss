@@ -1,8 +1,12 @@
-.all-people {
+.people {
     background: transparent url('/user/img/people/all-people-map-bg.png') left top fixed;
     background-size: contain;
-
-    &.grid-layout {
+        .logo-with-filter {
+            z-index: $zIndex-people-logo;
+         }
+         .slide-nav-list {
+            z-index: $zIndex-people-filter-pardah1;
+         }
 
         .people-grid-view {
             width: 75%;
@@ -21,8 +25,8 @@
             }
 
             .people-grid-content-wrapper {
-                background: transparent url('/user/img/people/all-people-content-bg.png') left top fixed;
-                background-size: cover;
+                background: transparent url('/user/img/people/all-people-content-bg.png') left top;
+                background-size: 100% auto;
                 background-repeat: no-repeat repeat;
                 display: inline-block;
                 overflow: visible;
@@ -31,9 +35,15 @@
                 padding-bottom: 15em;
 
                 .people-grid-wrapper {
-                    margin: 0 30px;
+                    margin: 0 40px;
                     @include media($tab-portrait) {
-                        margin: 0 10px;
+                        margin: 0 22px;
+                    }
+
+                    .image {
+                      img {
+                        width: 99%;
+                      }
                     }
 
                     .pagination-head {
@@ -42,8 +52,8 @@
                     }
                     .row-wrapper {
                         clear: both;
-                        height: 170px;
-                        padding-top: 8px;
+                        height: 180px;
+                        padding-top: 40px;
                         .image {
                             float: left;
                             width: 255px;
@@ -55,7 +65,7 @@
                             text-align: left;
                             float: left;
                             width: calc(97% - 255px);
-                            margin-left: 3%;
+                            margin-left: 2%;
 
                              a {
                                 &:nth-child(2) {
@@ -80,25 +90,28 @@
                                    font-weight: 300;
                                    font-family: 'Merriweather';
                                    color: $grey;
-                                   max-height: 9em;
-                                   line-height: 1.5em;
+                                   max-height: 124px;
+                                   line-height: 1.45em;
 
                                   .title {
                                         text-transform: Capitalize;
                                         font-size: $extra-large;
                                         color: $dark-grey;
+                                        margin-right: 5px;
                                         &:hover {
                                             color: $pink;
                                         }
 
                                   }
                                   .job-title {
-                                        text-transform: Capitalize;
+                                        text-transform: uppercase;
                                         font-size: $small;
                                         color: $grey;
                                         font-family: 'Merriweather Sans';
                                   }
-
+                                  .comma-space:after {
+                                        content: "\00a0";
+                                  }
 
 
                             }
@@ -116,17 +129,24 @@
                                     font-size: $small;
                                     font-family: 'Merriweather Sans';
                                     text-transform: Uppercase;
-                                    margin-top: 9px;
+                                    margin-top: 5px;
+                                    &:hover {
+                                        color: $dark-grey;
+                                    }
 
                             }
 
                             .read-link {
                                     color: $pink;
                                     font-weight: 300;
-                                    font-family: 'Merriweather';
-                                    font-size: $medium;
-                                    margin-top: 7px;
+                                    font-family: 'Merriweather Sans';
+                                    font-size: $small;
+                                    margin-top: 5px;
                                     float: left;
+                                    text-transform: uppercase;
+                                    &:hover {
+                                        color: $dark-grey;
+                                    }
 
                             }
 
@@ -137,7 +157,7 @@
             }
         }
 
-    }
+
 
     #page-wrapper {
         width: 100%;

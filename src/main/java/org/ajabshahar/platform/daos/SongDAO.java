@@ -25,18 +25,18 @@ public class SongDAO extends AbstractDAO<Song> {
         Criteria findSong = currentSession().createCriteria(Song.class, "song")
                 .add(Restrictions.eq("id", id))
                 .createCriteria("song.words", "words", JoinType.LEFT_OUTER_JOIN)
-                .setFetchMode("words", FetchMode.JOIN);
+                .setFetchMode("words", FetchMode.JOIN)
+                .createCriteria("song.reflections", "reflections", JoinType.LEFT_OUTER_JOIN)
+                .setFetchMode("reflections", FetchMode.JOIN);
 
-        Set<Song> songs = new LinkedHashSet(findSong.list());
-        return songs.iterator().next();
+        return (Song) findSong.uniqueResult();
     }
 
     public Song saveSong(Song song) {
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
 
-        currentSession().update(song.getUmbrellaTitle());
-        currentSession().save(song);
+        currentSession().saveOrUpdate(song);
 
         if (song.getIsAuthoringComplete()) {
             song.setPublishedDate(new Timestamp(now.getTime()));

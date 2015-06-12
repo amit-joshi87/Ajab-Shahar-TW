@@ -22,6 +22,15 @@ angular.module("song").controller("songExploreController", ['$scope', '$route', 
         $scope.currentSelection = "";
     };
 
+    $scope.contentTypeFilter = function(thumbnail){
+        if(!_.isEmpty($scope.currentSelection)){
+            if($scope.currentSelection === "reflection" ){
+                return thumbnail.type === "reflection" || thumbnail.type === "word";
+            }
+            return thumbnail.type === $scope.currentSelection;
+        }
+        return true;
+    };
     var relatedWordIntros = [];
     var relatedReflections =[];
     var relatedSongs =[];
@@ -29,8 +38,7 @@ angular.module("song").controller("songExploreController", ['$scope', '$route', 
      $scope.contentAvailable = function(type){
         switch (type){
             case 'song': return relatedSongs.length>0;
-            case 'word': return relatedWordIntros.length>0;
-            case 'reflection': return relatedReflections.length>0;
+            case 'reflection': return relatedReflections.length>0 || relatedWordIntros.length>0;
         }
         return false;
     };
@@ -48,13 +56,11 @@ angular.module("song").controller("songExploreController", ['$scope', '$route', 
                 relatedReflections = AjabShahar.SongExploreHelper.createReflectionThumbnails($scope.song.reflections);
                 $scope.thumbnails = $scope.thumbnails.concat(relatedReflections,relatedWordIntros);
 
-                songsContentService.getReflectionsFromRelatedWordsOf($scope.song).success(function(response){
+                songsContentService.getRelatedContentFromRelatedWordsOf($scope.song).success(function(response){
                     var wordReflections =AjabShahar.SongExploreHelper.getReflectionsFromWordReflections(response,relatedReflections);
                     relatedReflections = relatedReflections.concat(wordReflections);
                     $scope.thumbnails = $scope.thumbnails.concat(wordReflections);
-                });
 
-                songsContentService.getSongsFromRelatedWordsOf($scope.song).success(function(response){
                     var currentSong = {id: parseInt(songId)};
                     relatedSongs =AjabShahar.SongExploreHelper.getSongsFromWordReflections(response,[currentSong]);
                     $scope.thumbnails = $scope.thumbnails.concat(relatedSongs);

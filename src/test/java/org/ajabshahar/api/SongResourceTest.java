@@ -38,8 +38,6 @@ public class SongResourceTest {
     private Song song;
     @Mock
     private SongRepresentation songRepresentation;
-    @Mock
-    private SongTextRepresentationFactory songTextRepresentationFactory;
 
     @Before
     public void setUp() {
@@ -84,17 +82,6 @@ public class SongResourceTest {
         Response response = songResource.getPublishedSong(SONG_ID);
 
         assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    public void shouldUpdateSong() throws Exception {
-        String jsonSong = "Song";
-        when(songsRepresentationFactory.create(jsonSong)).thenReturn(song);
-
-        Response response = songResource.updateSong(jsonSong);
-
-        verify(songs).update(song);
-        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test

@@ -1,7 +1,6 @@
 package org.ajabshahar.api;
 
 import com.google.gson.Gson;
-import org.ajabshahar.core.Reflections;
 import org.ajabshahar.platform.daos.ReflectionDAO;
 import org.ajabshahar.platform.models.*;
 
@@ -135,9 +134,9 @@ public class ReflectionRepresentationFactory {
     }
 
     public ReflectionRepresentation createReflectionRepresentation(Reflection reflection) {
-        Set<Word> words = new LinkedHashSet<>(reflection.getWords());
+        Set<Word> words = reflection.getWords();
         Set<WordSummaryRepresentation> wordSummaryRepresentations = wordRepresentationFactory.create(words);
-        Set<ReflectionTranscript> reflectionTranscripts = reflection.getReflectionTranscripts() != null ? new LinkedHashSet<>(reflection.getReflectionTranscripts()) : new LinkedHashSet<>();
+        Set<ReflectionTranscript> reflectionTranscripts = reflection.getReflectionTranscripts() != null ?reflection.getReflectionTranscripts() : new LinkedHashSet<>();
         ReflectionRepresentation reflectionRepresentation = new ReflectionRepresentation(
                 (int) reflection.getId(),
                 reflection.getTitle(),

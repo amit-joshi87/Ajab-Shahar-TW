@@ -7,7 +7,7 @@
     </div>
 
     <div class="video-options">
-        <ul class="slide-info">
+        <ul class="slide-info" ng-if="content.about">
             <li>
                 <a href="javascript:void(0)" ng-click="showAbout()" ng-if="about"
                    class="{{isAboutVisible ? 'active-link': ''}}">about</a>
@@ -60,7 +60,7 @@
         </ul>
     </div>
 
-    <div class="related-links-parda">
+    <div class="related-links-parda" ng-cloak>
         <dl>
             <dt>{{poet}}</dt>
             <dd>Poet</dd>

@@ -1,8 +1,8 @@
 'use strict';
-reflectionsAdminApp.controller('reflectionDetailsController', ['$scope', '$window', '$location', 'reflectionContentService', "loginVerifyService", "$q",
-    function ($scope, $window, $location, reflectionContentService, loginVerifyService, $q) {
+reflectionsAdminApp.controller('reflectionDetailsController', ['$scope', '$window', '$location', 'reflectionContentService', "loginVerifyService", "$q", '$filter',
+    function ($scope, $window, $location, reflectionContentService, loginVerifyService, $q, $filter) {
         loginVerifyService.redirectIfNotAuthenticated();
-        $scope.reflection = {"reflectionTranscripts": [], "speaker": {}};
+        $scope.reflection = {"reflectionTranscripts": [{}], "speaker": {}};
         $scope.peopleList = [];
         $scope.people = [];
         $scope.words = [];
@@ -18,6 +18,10 @@ reflectionsAdminApp.controller('reflectionDetailsController', ['$scope', '$windo
             });
         };
 
+        var sortList = function (list, sortCriteria) {
+            return $filter('orderBy')(list, sortCriteria);
+        };
+
         var createMenuTitleForSongs = function () {
             angular.forEach($scope.songs, function (song) {
                 var singerNames = _.pluck(song.singers, 'name');
@@ -27,6 +31,8 @@ reflectionsAdminApp.controller('reflectionDetailsController', ['$scope', '$windo
                     song.menuTitle = song.englishTransliterationTitle + " - (" + singerNames.join(", ") + ")";
                 }
             });
+
+            $scope.songs = sortList($scope.songs, 'menuTitle');
         };
 
         var REFLECTION_TYPE = {
@@ -62,13 +68,14 @@ reflectionsAdminApp.controller('reflectionDetailsController', ['$scope', '$windo
 
 
             $q.all([getPeoplePromise, getWordsPromise, getSongsPromise]).then(function (data) {
-                $scope.people = data[0].data;
+                $scope.people = sortList(data[0].data, 'name');
                 var urlId = $location.search().id;
                 $scope.songs = data[2].data.songs;
-                $scope.words = data[1].data;
+                $scope.words = sortList(data[1].data, 'wordTransliteration');
                 if (urlId != null && urlId != '') {
                     reflectionContentService.getRefectionById(urlId).success(function (data) {
                         $scope.reflection = data;
+                        $scope.reflection.reflectionTranscripts = $scope.reflection.reflectionTranscripts || [{}];
                         $scope.words = getSelectedContent($scope.reflection.words, $scope.words);
                         $scope.songs = getSelectedContent($scope.reflection.songs, $scope.songs);
                         $scope.people = getSelectedContent($scope.reflection.people, $scope.people);
@@ -92,7 +99,7 @@ reflectionsAdminApp.controller('reflectionDetailsController', ['$scope', '$windo
         };
 
         var getReflectionType = function () {
-            return ($scope.reflection.soundCloudId != null ? 'audio' : ($scope.reflection.youtubeVideoId != null ? 'video' : ($scope.reflection.reflectionTranscripts && $scope.reflection.reflectionTranscripts.length > 0 ? 'text' : '')));
+            return ($scope.reflection.soundCloudId != null ? 'audio' : ($scope.reflection.youtubeVideoId != null ? 'video' : (!$scope.reflection.about ? 'text' : 'video')));
         };
 
         init();

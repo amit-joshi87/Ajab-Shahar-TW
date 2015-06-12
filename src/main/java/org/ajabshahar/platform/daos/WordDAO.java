@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,21 @@ public class WordDAO extends AbstractDAO<Word> {
             wordIntroduction.setWord(word);
             currentSession().saveOrUpdate(wordIntroduction);
         }
+        for(Word synonym : word.getSynonyms()){
+            Set<Word> words = new HashSet<Word>();
+            words.add(word);
+            Word newWord = (Word) findBy((int)synonym.getId(),false,false).iterator().next();
+            newWord.setSynonyms(words);
+            currentSession().saveOrUpdate(newWord);
+        }
+
+        for(Word relatedWord : word.getRelatedWords()){
+            Set<Word> words = new HashSet<Word>();
+            words.add(word);
+            Word newWord = (Word) findBy((int)relatedWord.getId(),false,false).iterator().next();
+            newWord.setRelatedWords(words);
+            currentSession().saveOrUpdate(newWord);
+        }
         return word;
     }
 
@@ -43,28 +59,25 @@ public class WordDAO extends AbstractDAO<Word> {
             allWords.add(Restrictions.eq("publish", true));
         }
 
-        allWords.createCriteria("word.songs", "songs", JoinType.LEFT_OUTER_JOIN)
-                .setFetchMode("songs", FetchMode.JOIN)
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
-        allWords.createCriteria("word.reflections", "reflections", JoinType.LEFT_OUTER_JOIN)
-                .setFetchMode("reflections", FetchMode.JOIN)
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
-        allWords.createCriteria("word.relatedWords", "relatedWords", JoinType.LEFT_OUTER_JOIN)
-                .setFetchMode("reflatedWords", FetchMode.JOIN)
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
         Set words = new LinkedHashSet<>(allWords.list());
         return words;
     }
 
-    public Set<Word> findReflections(List<Long> wordIds) {
-        Criteria wordReflections = currentSession().createCriteria(Word.class);
-        if (wordIds != null) {
-            wordReflections.add(Restrictions.in("id", wordIds));
+    private Criteria allWordsCriteria(Session session) {
+        return session.createCriteria(Word.class, "word")
+                .createCriteria("word.songs", "songs", JoinType.LEFT_OUTER_JOIN)
+                .setFetchMode("songs", FetchMode.JOIN)
+                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+    }
+
+
+    public Set<Word> findWords(List<Long> wordIds) {
+        Criteria wordCriteria = currentSession().createCriteria(Word.class);
+        if (wordIds != null && !wordIds.isEmpty()) {
+            wordCriteria.add(Restrictions.in("id", wordIds));
+            return new LinkedHashSet<>(wordCriteria.list());
+        }else{
+            return findBy(0,false,true);
         }
-        Set<Word> wordsWithReflections = new LinkedHashSet<>(wordReflections.list());
-        return wordsWithReflections;
     }
 }

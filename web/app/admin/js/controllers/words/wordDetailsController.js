@@ -1,10 +1,10 @@
-wordsAdminApp.controller('wordDetailsController', ['$scope', '$window', '$location', 'contentService', 'PAGES', '$q', "loginVerifyService",
-    function ($scope, $window, $location, contentService, PAGES, $q, loginVerifyService) {
+wordsAdminApp.controller('wordDetailsController', ['$scope', '$window', '$location', 'contentService', 'PAGES', '$q', "loginVerifyService", '$filter',
+    function ($scope, $window, $location, contentService, PAGES, $q, loginVerifyService, $filter) {
         loginVerifyService.redirectIfNotAuthenticated();
 
         $scope.formInfo = {
             reflections: [],
-            wordIntroductions: [],
+            wordIntroductions: [{}],
             displayAjabShaharTeam: false
         };
         $scope.categories = [];
@@ -27,6 +27,11 @@ wordsAdminApp.controller('wordDetailsController', ['$scope', '$window', '$locati
                     song.menuTitle = song.englishTransliterationTitle + " - (" + singerNames.join(", ") + ")";
                 }
             });
+            $scope.songs = sortList($scope.songs, 'menuTitle');
+        };
+
+        var sortList = function (list, sortCriteria) {
+            return $filter('orderBy')(list, sortCriteria);
         };
 
         $scope.init = function () {
@@ -40,13 +45,13 @@ wordsAdminApp.controller('wordDetailsController', ['$scope', '$window', '$locati
             $q.all([categoriesPromise, songsPromise, peoplePromise, reflectionsPromise, poetsPromise, wordsSummaryPromise]).then(function (data) {
                 $scope.categories = data[0].data;
                 $scope.songs = data[1].data.songs;
-                $scope.writers = angular.copy(data[2].data);
-                $scope.people = angular.copy(data[2].data);
-                $scope.reflections = data[3].data.reflections;
-                $scope.reflectionsWithoutTheDefault = angular.copy($scope.reflections);
-                $scope.poets = data[4].data;
-                $scope.synonyms = angular.copy(data[5].data);
-                $scope.relatedWords = angular.copy(data[5].data);
+                $scope.writers = sortList(angular.copy(data[2].data),'name');
+                $scope.people = sortList(angular.copy(data[2].data),'name');
+                $scope.reflections = sortList(data[3].data.reflections,'title');
+                $scope.reflectionsWithoutTheDefault = sortList(angular.copy($scope.reflections),'title');
+                $scope.poets = sortList(data[4].data,'name');
+                $scope.synonyms = sortList(angular.copy(data[5].data),'wordTransliteration');
+                $scope.relatedWords = sortList(angular.copy(data[5].data),'wordTransliteration');
 
                 createMenuTitleForSongs();
 
@@ -88,6 +93,7 @@ wordsAdminApp.controller('wordDetailsController', ['$scope', '$window', '$locati
                     $scope.relatedWords = getSelectedContent(data.relatedWords, $scope.relatedWords);
                     $scope.reflectionsWithoutTheDefault=getSelectedContent(data.reflections, $scope.reflections);
                     $scope.formInfo = data;
+                    $scope.formInfo.wordIntroductions = $scope.formInfo.wordIntroductions || [{}];
                 });
 
                 //TODO: we have to refactor , this is duplication

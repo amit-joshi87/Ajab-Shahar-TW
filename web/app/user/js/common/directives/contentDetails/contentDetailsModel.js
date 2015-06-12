@@ -74,7 +74,7 @@ AjabShahar.DetailsObject = function (content, type) {
             var speakerLink = {
                 name: reflection.speaker ? reflection.speaker.name : "",
                 description: reflection.speaker ? reflection.speaker.primaryOccupation : "",
-                link:"/people/all#"+reflection.speaker.id
+                link:reflection.speaker ? "/people/all#"+reflection.speaker.id : ""
             };
 
             var relatedPeople = pluckPropertyFrom(reflection, "people", "map", function (person) {
@@ -132,8 +132,10 @@ AjabShahar.DetailsObject = function (content, type) {
         self.audioId = song.soundCloudTrackId;
         self.videoId = song.youtubeVideoId;
         self.downloadUrl = song.downloadURL;
+        self.image = song.thumbnailURL;
         self.about = song.about;
         self.links = getRelatedLinksFromSong(song);
+        self.shareUrl = "/songs/?id=" + self.id;
     };
 
     var buildFromWord = function (word) {
@@ -172,6 +174,8 @@ AjabShahar.DetailsObject = function (content, type) {
         self.people = getPeopleFromWord(word);
         self.displayAjabShaharTeam = word.displayAjabShaharTeam;
         self.info = "";
+        self.image = word.thumbnailUrl;
+        self.shareUrl = "/words/details/" + self.id;
     };
 
     var buildFromReflection = function (reflection) {
@@ -196,6 +200,8 @@ AjabShahar.DetailsObject = function (content, type) {
         self.info = reflection.info;
         self.about = reflection.about;
         self.excerpt = reflection.reflectionExcerpt;
+        self.image = reflection.thumbnailURL;
+        self.shareUrl = "/reflections/details/" + self.id;
     };
 
     if (type === 'song') {

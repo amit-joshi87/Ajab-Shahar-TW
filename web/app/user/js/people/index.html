@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/user/css/ajabShahar.css"/>
     <base href="/people/">
 </head>
-<body class="all-people grid-layout">
+<body class="all-people">
 <div class="container">
 <ajab-shahar-header ></ajab-shahar-header>
 <div ng-view></div>
@@ -29,6 +29,8 @@
 <script type="text/javascript" src="/common/lib/underscore/underscore.js"></script>
 <script type="text/javascript" src="/common/lib/angular-route/angular-route.js"></script>
 <script type="text/javascript" src="/common/lib/readmore/readmore.min.js"></script>
+<script type="text/javascript" src="/common/lib/angular-masonry/angular-masonry.js"></script>
+
 
 <script type="text/javascript" src="/common/lib/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 <script type="text/javascript" src="/user/js/common/directives/animation/animationModule.js"></script>
@@ -41,14 +43,19 @@
 
 <script type="text/javascript" src="/user/js/people/models/peopleModel.js"></script>
 <script type="text/javascript" src="/user/js/common/modules/utilities.js"></script>
+<script type="text/javascript" src="/user/js/common/directives/onNgRepeatEnd/onNgRepeatEnd.js"></script>
 <script type="text/javascript" src="/user/js/common/directives/heightOffset/heightOffset.js"></script>
 <script type="text/javascript" src="/user/js/common/directives/heightOffset/minHeightOffset.js"></script>
 <script type="text/javascript" src="/user/js/common/directives/readMore/readMore.js"></script>
+<script type="text/javascript" src="/user/js/common/utilities/sieve.js"></script>
+<script type="text/javascript" src="/user/js/people/peopleFilterConfig.js"></script>
+
 
 <script type="text/javascript" src="/user/js/common/modules/htmlGenerator.js"></script>
 <script type="text/javascript" src="/user/js/people/peopleApp.js"></script>
 <script type="text/javascript" src="/user/js/people/services/peopleService.js"></script>
 <script type="text/javascript" src="/user/js/people/controllers/allPeopleController.js"></script>
+<script type="text/javascript" src="/user/js/people/controllers/peopleExploreController.js"></script>
 <script type="text/javascript" src="/user/js/people/randomizeBackgrounds.js"></script>
 
 </body>

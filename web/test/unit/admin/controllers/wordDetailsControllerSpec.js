@@ -55,13 +55,13 @@ describe("Word details controller spec:", function () {
             $httpBackend.flush();
 
             expect(scope.writers.length).toBe(2);
-            expect(scope.writers[0].id).toBe(8);
-            expect(scope.writers[1].id).toBe(11);
+            expect(scope.writers[0].id).toBe(11);
+            expect(scope.writers[1].id).toBe(8);
 
 
             expect(scope.people.length).toBe(2);
-            expect(scope.writers[0].id).toBe(8);
-            expect(scope.writers[1].id).toBe(11);
+            expect(scope.writers[0].id).toBe(11);
+            expect(scope.writers[1].id).toBe(8);
 
         });
 
@@ -79,10 +79,10 @@ describe("Word details controller spec:", function () {
             scope.init();
             $httpBackend.flush();
 
-            expect(scope.reflectionsWithoutTheDefault[0].ticked).toBeFalsy();
-            expect(scope.reflectionsWithoutTheDefault[0].id).toBe(4);
-            expect(scope.reflectionsWithoutTheDefault[1].ticked).toBeTruthy();
-            expect(scope.reflectionsWithoutTheDefault[1].id).toBe(5);
+            expect(scope.reflectionsWithoutTheDefault[0].ticked).toBeTruthy();
+            expect(scope.reflectionsWithoutTheDefault[0].id).toBe(5);
+            expect(scope.reflectionsWithoutTheDefault[1].ticked).toBeFalsy();
+            expect(scope.reflectionsWithoutTheDefault[1].id).toBe(4);
         });
 
         it("it should not include the default reflection in other reflections dropdown options",function(){
@@ -98,8 +98,8 @@ describe("Word details controller spec:", function () {
             scope.init();
             $httpBackend.flush();
 
-            expect(scope.reflectionsWithoutTheDefault[0].id).toBe(4);
-            expect(scope.reflectionsWithoutTheDefault[1].id).toBe(5);
+            expect(scope.reflectionsWithoutTheDefault[0].id).toBe(5);
+            expect(scope.reflectionsWithoutTheDefault[1].id).toBe(4);
 
         });
         it("it should display the linked synonyms", function () {
@@ -240,8 +240,8 @@ describe("Word details controller spec:", function () {
             scope.init();
             $httpBackend.flush();
 
-            expect(scope.songs[0].menuTitle).toBe('Kichhu din mone mone - (Parvathy Baul)');
-            expect(scope.songs[1].menuTitle).toBe('Bhajan - (Gavra Devi)');
+            expect(scope.songs[0].menuTitle).toBe('Bhajan - (Gavra Devi)');
+            expect(scope.songs[2].menuTitle).toBe('Kichhu din mone mone - (Parvathy Baul)');
         });
         it("then shouldn't have singers as a comma separated entries for a song, if there are no singers", function () {
 
@@ -257,7 +257,7 @@ describe("Word details controller spec:", function () {
             scope.init();
             $httpBackend.flush();
 
-            expect(scope.songs[2].menuTitle).toBe('Hiye Kaaya Mein');
+            expect(scope.songs[1].menuTitle).toBe('Hiye Kaaya Mein');
         });
     });
     describe("when saving the word for the first time",function(){
