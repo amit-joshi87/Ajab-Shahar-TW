@@ -114,10 +114,10 @@ public class DataSetup {
     public static final Operation INSERT_REFLECTIONS =
             sequenceOf(
                     insertInto("REFLECTION")
-                            .columns("id", "title", "speaker_id")
-                            .values(1, "Oh that wonderful song!", 1)
-                            .values(2, "I hate that word!", 2)
-                            .values(3, "Jaane kya hoga rama re!", 3)
+                            .columns("id", "title", "speaker_id","is_authoring_complete")
+                            .values(1, "Oh that wonderful song!", 1,true)
+                            .values(2, "I hate that word!", 2,true)
+                            .values(3, "Jaane kya hoga rama re!", 3,false)
                             .build());
 
     public static final Operation INSERT_REFLECTION_PERSON =
@@ -177,6 +177,7 @@ public class DataSetup {
                             .columns("word_id", "person_id")
                             .values(2, 1)
                             .values(2, 2)
+                            .values(3, 1)
                             .build());
 
     public static final Operation INSERT_RELATED_WORDS =

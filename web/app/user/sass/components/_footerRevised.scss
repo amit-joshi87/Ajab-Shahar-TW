@@ -206,12 +206,13 @@
                     float: left;
 
                     .kabir-logo {
-                        background: url(/user/img/common/directives/footer/icons/kabirlogo-light.png) 6px 0 no-repeat;
+                        background: url(/user/img/common/directives/footer/icons/kabirlogo-light.png) -1px 0 no-repeat;
                         width: 35px;
                         float: left;
                         height: 50px;
                         &:hover {
                             background: url(/user/img/common/directives/footer/icons/kabirlogo-pink.png) -1px 0 no-repeat;
+                            
                         }
                     }
                     &.project-details {
@@ -230,25 +231,21 @@
                     &.ok-listen {
                         margin-right: 0px;
                         a:hover {
-                            width: 33px;
-                            height: 24px;
+
                             background-position: -15px -119px;
                         }
                     }
                     &.fbook a:hover {
-                        width: 19px;
-                        height: 20px;
-                        background-position: -163px -15px;
+
+                        background-position: -162px -15px;
                     }
                     &.sound-cloud a:hover {
-                        width: 39px;
-                        height: 18px;
-                        background-position: -148px -167px;
+
+                        background-position: -147px -167px ;
                     }
                     &.social-utube a:hover {
-                        width: 19px;
-                        height: 23px;
-                        background-position: -15px -174px;
+
+                        background-position: -14px -174px;
                     }
                 }
 

@@ -44,14 +44,14 @@ body.songs-details {
   }
 
   #poem_container {
-    text-align: center;
+/*    text-align: center;*/
     padding: 10px 0 50px;
     font-weight: 300;
     line-height: 27px;
 
     .song-heading {
-      color: #b3b3b3;
-      font-size: 30px;
+      color: $grey;
+      font-size: $double-x-large;
       line-height: 52px;
       padding: 0 0 20px;
       font-weight: 300;
@@ -60,8 +60,18 @@ body.songs-details {
     }
 
     .poet-details {
-      color: #676767;
-      font-size: 14px;
+      color: $grey;
+      font-size: $medium;
+      padding-bottom: 70px;
+      position: relative;
+      top: -10px;
+      a {
+        text-transform: uppercase;
+        color: $pink;
+        &:hover {
+            color: $dark-grey;
+        }
+      }
     }
 
     .initial-couplets {
@@ -70,8 +80,10 @@ body.songs-details {
     }
 
     .lyrics {
-      font-size: 14px;
-      color: #4D4D4D;
+      font-size: $medium;
+      color: $grey;
+      font-family: 'Merriweather';
+      line-height: 21px;
     }
 
     .refrain{
@@ -83,13 +95,28 @@ body.songs-details {
         font-family: 'Lohit Devanagari', serif;
       }
       .song-heading {
-        font-size: 32px;
+        font-size: $double-x-large-dev;
+        color: $light-grey;
+      }
+      .poet {
+        font-size: $medium-dev;
+        padding-bottom: 70px;
+        position: relative;
+        top: -10px;
+        a {
+            color: $pink;
+            &:hover {
+                color: $dark-grey;
+            }
+        }
       }
       .initial-couplets {
         font-size: 15px;
       }
       .lyrics {
-        font-size: 18px;
+        font-size: $medium-dev;
+        line-height: 21px;
+        color: $grey;
       }
     }
 
@@ -127,12 +154,17 @@ body.songs-details {
           & > a {
             width: 39px;
             height: 39px;
-            background-position: -222px -131px;
+            background-position: -84px -200px;
 
             &:hover, &.active {
                 width: 39px;
                 height: 39px;
-                background-position: -84px -200px;
+                background-position: -153px -131px;
+            }
+            &.disabled {
+                width: 39px;
+                height: 39px;
+                background-position: -15px -200px;
             }
 
 
@@ -142,12 +174,18 @@ body.songs-details {
           & > a {
             width: 39px;
             height: 40px;
-            background-position: -291px -130px;
+            background-position: -15px -270px;
 
             &:hover, &.active {
                 width: 39px;
                 height: 40px;
-                background-position: -15px -270px;
+                background-position: -289px -60px;
+
+            }
+            &.disabled {
+                width: 39px;
+                height: 40px;
+                background-position: -291px -200px;
             }
 
           }
@@ -156,12 +194,17 @@ body.songs-details {
           & > a {
             width: 39px;
             height: 39px;
-            background-position: -180px -62px;
+            background-position: -84px -131px;
 
             &:hover, &.active {
                 width: 39px;
                 height: 39px;
-                background-position: -84px -131px;
+                background-position: -111px -62px;
+            }
+            &.disabled {
+                width: 39px;
+                height: 39px;
+                background-position: -15px -131px;
             }
 
 
@@ -173,14 +216,17 @@ body.songs-details {
       position: absolute;
       right: 30px;
       bottom: 55px;
-      font-size: 14px;
-      color: #808080;
+      font-size: $medium;
+      color: $grey;
       font-weight: 300;
 
+
       & > a {
-        font-size: 15px;
-        text-transform: upperCase;
-        color: #ed1e79;
+        text-transform: uppercase;
+        color: $pink;
+        &:hover {
+            color: $dark-grey;
+        }
 
       }
     }

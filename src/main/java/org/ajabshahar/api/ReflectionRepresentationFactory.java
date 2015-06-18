@@ -8,9 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ReflectionRepresentationFactory {
-    private WordRepresentationFactory wordRepresentationFactory;
     private ReflectionDAO reflectionDAO;
-
 
     public Reflection create(String jsonWord) {
         return toReflection(new Gson().fromJson(jsonWord, ReflectionRepresentation.class));
@@ -74,8 +72,10 @@ public class ReflectionRepresentationFactory {
 
     public ReflectionsSummaryRepresentation toReflectionsSummaryRepresentation(Set<Reflection> reflectionList) {
         ReflectionsSummaryRepresentation reflectionsSummaryRepresentation = new ReflectionsSummaryRepresentation();
-        for (Reflection reflection : reflectionList) {
-            reflectionsSummaryRepresentation.add(ReflectionSummaryRepresentation.createFrom(reflection));
+        if (reflectionList != null) {
+            for (Reflection reflection : reflectionList) {
+                reflectionsSummaryRepresentation.add(ReflectionSummaryRepresentation.createFrom(reflection));
+            }
         }
         return reflectionsSummaryRepresentation;
     }
@@ -83,30 +83,8 @@ public class ReflectionRepresentationFactory {
     public Set<ReflectionRepresentation> create(Set<Reflection> reflections) {
         Set<ReflectionRepresentation> reflectionRepresentations = new LinkedHashSet<>();
         for (Reflection reflection : reflections) {
-            Set<Word> words = new LinkedHashSet<>(reflection.getWords());
-            Set<ReflectionTranscript> reflectionTranscripts = new LinkedHashSet<>(reflection.getReflectionTranscripts());
-            Set<WordSummaryRepresentation> wordRepresentations = wordRepresentationFactory.create(words);
-            PersonDetails speakerDetails = reflection.getSpeaker();
-            ReflectionRepresentation representation = new ReflectionRepresentation((int) reflection.getId(),
-                    reflection.getTitle(),
-                    reflection.getVerb(),
-                    getPersonSummaryRepresentation(speakerDetails),
-                    reflection.getSoundCloudId(),
-                    reflection.getYoutubeVideo(),
-                    reflectionTranscripts,
-                    wordRepresentations,
-                    reflection.getShowOnFeaturedContentPage(),
-                    reflection.getIsAuthoringComplete(),
-                    SongSummaryRepresentation.toSummaryRepresentations(reflection.getSongs()),
-                    PersonSummaryRepresentation.toPersonSummaries(reflection.getPeople()),
-                    reflection.getThumbnailURL(),
-                    reflection.getInfo(),
-                    reflection.getAbout(),
-                    reflection.getDuration(),
-                    reflection.getReflectionExcerpt());
-            reflectionRepresentations.add(representation);
+            reflectionRepresentations.add(createReflectionRepresentation(reflection));
         }
-
         return reflectionRepresentations;
     }
 
@@ -135,7 +113,7 @@ public class ReflectionRepresentationFactory {
 
     public ReflectionRepresentation createReflectionRepresentation(Reflection reflection) {
         Set<Word> words = reflection.getWords();
-        Set<WordSummaryRepresentation> wordSummaryRepresentations = wordRepresentationFactory.create(words);
+        Set<WordSummaryRepresentation> wordSummaryRepresentations = WordSummaryRepresentation.fromWords(words);
         Set<ReflectionTranscript> reflectionTranscripts = reflection.getReflectionTranscripts() != null ?reflection.getReflectionTranscripts() : new LinkedHashSet<>();
         ReflectionRepresentation reflectionRepresentation = new ReflectionRepresentation(
                 (int) reflection.getId(),
@@ -157,10 +135,6 @@ public class ReflectionRepresentationFactory {
                 reflection.getReflectionExcerpt()
         );
         return reflectionRepresentation;
-    }
-
-    public void injectWordRepresentationFactory(WordRepresentationFactory wordRepresentationFactory) {
-        this.wordRepresentationFactory = wordRepresentationFactory;
     }
 
     public void injectReflectionDao(ReflectionDAO reflectionDAO) {

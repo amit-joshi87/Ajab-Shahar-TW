@@ -6,7 +6,7 @@
   margin: 0 auto;
   display: block;
   position: relative;
-  background-size: contain;
+  background-size: cover;
 
   @media screen and (max-width: 1280px) {
     width: 100%;
@@ -22,6 +22,10 @@
   .page-header {
     width: 90%;
     padding-top: 3%;
+    .logo-container > a {
+        position: relative;
+        top: -13px;
+    }
   }
   .pagination-head {
     width: 85%;

@@ -43,6 +43,8 @@
                     .image {
                       img {
                         width: 99%;
+                        border: 3px solid #FFF;
+                        box-shadow: 1px 1px 10px #777;
                       }
                     }
 
@@ -92,6 +94,7 @@
                                    color: $grey;
                                    max-height: 124px;
                                    line-height: 1.45em;
+                                   margin-top: 1px;
 
                                   .title {
                                         text-transform: Capitalize;

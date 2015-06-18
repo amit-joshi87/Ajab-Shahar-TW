@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="songDetailsApp">
+<html ng-app="songDetailsApp" ng-controller="songDetailsController">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Song details page</title>
+    <title ng-bind="selectedSong.songTitle.englishTransliteration"></title>
     <link href="/common/jquery/jcarousel/jcarousel.responsive.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Merriweather:400,300italic,300,400italic,700,700italic"/>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Merriweather+Sans:400,300italic,300,400italic,700,700italic"/>
@@ -21,7 +21,7 @@
     </script>
 </head>
 
-<body ng-controller="songDetailsController"  class="songs-details header-with-carousel details">
+<body class="songs-details header-with-carousel details">
     <ajab-shahar-header></ajab-shahar-header>
     <div class="page-header">
         <div class="ajab-wrapper">
@@ -65,17 +65,17 @@
                 <div ng-show="hasSongText()" id="poem_container" ng-cloak>
                     <div ng-show="originalVisible" class="toggleByFading  hindi">
                         <h2 class="song-heading">{{selectedSong.songTitle.originalTitle}}</h2>
-                        <div> कवि {{selectedSong.poets[0].hindiName}}</div>
+                        <div class="poet"> कवि <a href="#">{{selectedSong.poets[0].hindiName}}</a></div>
                         <div class="lyrics" bind-dynamic-html="selectedSong.songText.original"></div>
                     </div>
                     <div ng-show="englishTranslationVisible" class="toggleByFading">
                         <h2 class="song-heading">{{selectedSong.songTitle.englishTranslation}}</h2>
-                        <div> POET {{selectedSong.poets[0].name}}</div>
+                        <div class="poet-details"> POET <a href="#">{{selectedSong.poets[0].name}}</a></div>
                         <div class="lyrics" bind-dynamic-html="selectedSong.songText.translation"></div>
                     </div>
                     <div ng-show="englishTransliterationVisible" class="toggleByFading">
                         <h2 class="song-heading">{{selectedSong.songTitle.englishTransliteration}}</h2>
-                        <div> POET {{selectedSong.poets[0].name}}</div>
+                        <div class="poet-details"> POET <a href="#">{{selectedSong.poets[0].name}}</a></div>
                         <div class="lyrics" bind-dynamic-html="selectedSong.songText.transliteration"></div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                 <li class="transliteration" ng-click="showEnglishTransliteration()"><a href="javascript:void(0)" ng-class="{'active':englishTransliterationVisible}"></a></li>
                 <li class="translation" ng-click="showEnglishTranslation()"><a href="javascript:void(0)" ng-class="{'active':englishTranslationVisible}"></a></li>
             </ul>
-            <div class="glossary-link">see <a target="_blank" href="/words/#/glossary">Glossary</a></div>
+            <div class="glossary-link">See <a target="_blank" href="/words/#/glossary">Glossary</a></div>
         </div>
         <div class="footer-spacer"></div>
         <ajab-shahar-footer></ajab-shahar-footer>

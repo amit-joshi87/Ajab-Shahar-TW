@@ -45,7 +45,7 @@
   }
 
   .moreDesc {
-    color: $color-regular-text;
+    color: $grey;
     font-size: $large;
     font-style: italic;
     font-weight: 300;
@@ -59,8 +59,8 @@
     font-size: $small;
     font-family: 'Merriweather Sans';
     line-height: 26px;
-    color: $color-regular-text;
-    font-weight: 700;
+    color: $grey;
+    font-weight: 400;
 
     small {
         text-transform: lowercase;
@@ -102,7 +102,7 @@
     float: right;
     display: inline-flex;
     display: webkit-inline-flex;
-    margin-top: -2%;
+    margin-top: -12px;
     & > li {
       border-right: solid 1px #666;
       line-height: 2px;
@@ -115,25 +115,40 @@
         padding-right: 0;
       }
       & > a {
-        background: transparent url('../../user/img/songs/av_sprite.png') 0 0 no-repeat;
-        width: 12px;
-        height: 15px;
-        display: inline-block;
-
-        &.video-icon {
-          background-position: -13px 3px;
-          &.active {
-            background-position: 0 3px;
-          }
+        background-image: url(/user/img/common/icons/sprite_icons.png);
+        background-repeat: no-repeat;
+        display: block;
+        &.active {
+            cursor: default;
         }
 
+        &.video-icon {
+            width: 10px;
+            height: 12px;
+            background-position: -233px -200px;
+            &:hover, &.active {
+                  width: 10px;
+                  height: 12px;
+                  background-position: -249px -61px;
+            }
+
+
+        }
+
+
         &.audio-icon {
-          background-position: -13px -12px;
-          width: 20px;
-          height: 20px;
-          &.active {
-            background-position: 0 -12px;
-          }
+            width: 14px;
+            height: 22px;
+            background-position: -145px -16px;
+
+            &:hover, &.active {
+                width: 14px;
+                height: 17px;
+                background-position: -15px -16px;
+
+            }
+
+
         }
       }
     }
@@ -163,9 +178,8 @@
 
 .context {
   font-size: $large;
-  text-transform: capitalize;
   font-weight: 300;
-  color: $color-link;
+  color: $pink;
 
   &:hover {
     color: $color-hover-link;
@@ -238,11 +252,14 @@
     font-weight: 300;
     a {
       font-size: $double-x-large;
-      color: $color-link;
+      color: $pink;
       font-family: 'Merriweather';
       text-transform: capitalize;
       &.sub {
         font-size: $extra-large;
+      }
+      &:hover {
+        color: $dark-grey;
       }
     }
   }

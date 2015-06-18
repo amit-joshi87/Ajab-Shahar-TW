@@ -101,7 +101,6 @@ public class WordResourceIT {
 
         assertEquals(1, responseEntity.getWordIntroductions().size());
         assertEquals("text", responseEntity.getWordIntroductions().iterator().next().getContentType());
-        assertEquals("Ravi Das", responseEntity.getWordIntroductions().iterator().next().getPoet().getName());
         assertEquals("word intro english", responseEntity.getWordIntroductions().iterator().next().getWordIntroEnglish());
         assertEquals("word intro hindi", responseEntity.getWordIntroductions().iterator().next().getWordIntroHindi());
     }
@@ -120,7 +119,6 @@ public class WordResourceIT {
         assertThat(word.getWordIntroductions().iterator().next().getContentType(), is("couplet"));
         assertThat(word.getWordIntroductions().iterator().next().getWordIntroEnglish(), is("new intro english"));
         assertThat(word.getWordIntroductions().iterator().next().getWordIntroHindi(), is("new intro hindi"));
-        assertEquals(1, word.getWordIntroductions().iterator().next().getPoet().getId());
     }
 
     @Test
@@ -491,7 +489,7 @@ public class WordResourceIT {
 
         SongSummaryRepresentation songs = wordRepresentation.getSongs().iterator().next();
 
-        assertEquals("Ravi Das", songs.getSingers().iterator().next().getName());
+        assertEquals(1, songs.getId());
     }
 
     @Test
@@ -691,6 +689,22 @@ public class WordResourceIT {
 
         assertThat(wordsList.getWords().iterator().next().getSynonyms().size(),is(1));
         assertThat(wordsList.getWords().iterator().next().getRelatedWords().size(),is(1));
+
+    }
+
+    @Test
+    public void shouldGetWordsBasedOnPerson() {
+        Operation operation = Operations.sequenceOf(DataSetup.DELETE_ALL,DataSetup.INSERT_CATEGORY, DataSetup.INSERT_PERSON,
+                DataSetup.INSERT_REFLECTIONS, DataSetup.INSERT_WORDS,DataSetup.INSERT_WORD_WRITERS,DataSetup.INSERT_WORD_PEOPLE);
+
+        DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
+        dbSetup.launch();
+
+        ClientResponse words = httpGet("http://localhost:%d/api/words/summary?personId=1");
+
+        Set<WordSummaryRepresentation> wordsSummaryRepresentation = words.getEntity(Set.class);
+
+        assertEquals(1, wordsSummaryRepresentation.size());
 
     }
 
