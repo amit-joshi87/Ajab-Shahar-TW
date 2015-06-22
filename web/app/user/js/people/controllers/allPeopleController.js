@@ -4,7 +4,8 @@ angular.module("people").controller('allPeopleController', ['$scope', 'peopleSer
     $scope.people = [];
     $scope.allPeople = [];
     $scope.expandFilter = false;
-    $scope.numberOfPeople;
+    var currentSelection ="";
+    $scope.currentAlphabetSelection="ALL";
     $scope.alphabetFilters = ['ALL', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
         'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
@@ -15,7 +16,7 @@ angular.module("people").controller('allPeopleController', ['$scope', 'peopleSer
                 $scope.people.push(new AjabShahar.peopleModel(person));
             });
             $scope.allPeople = angular.copy($scope.people);
-            $scope.numberOfPeople = $scope.people.length;
+            updateFilterCount();
         });
     };
 
@@ -27,9 +28,24 @@ angular.module("people").controller('allPeopleController', ['$scope', 'peopleSer
             sieve.removeFilterCriteria("name");
         else
             sieve.setFilterCriteria("name", letter);
+        $scope.currentAlphabetSelection = letter;
         $scope.people = sieve.filter($scope.allPeople);
-        $scope.numberOfPeople = $scope.people.length;
+        updateFilterCount();
+    };
 
+    $scope.filterBy = function(occupation){
+        sieve.removeFilterCriteria("occupations[]");
+        currentSelection = occupation;
+        sieve.setFilterCriteria("occupations[]", occupation);
+        $scope.people = sieve.filter($scope.allPeople);
+        updateFilterCount();
+    };
+
+    $scope.resetFilters = function(){
+        sieve.removeFilterCriteria("occupations[]");
+        currentSelection = "";
+        $scope.people = $scope.allPeople;
+        updateFilterCount();
     };
 
     $scope.scrollTo = function () {
@@ -43,5 +59,13 @@ angular.module("people").controller('allPeopleController', ['$scope', 'peopleSer
 
     };
 
+    $scope.isActive = function(criterion){
+        return currentSelection === criterion;
+    };
+
+
+    var updateFilterCount = function(){
+        $scope.numberOfPeople = $scope.people.length;
+    };
     $scope.init();
 }]);

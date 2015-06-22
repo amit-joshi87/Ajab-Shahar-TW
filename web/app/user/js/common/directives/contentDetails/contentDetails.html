@@ -8,7 +8,7 @@
                 <div ng-if="content.type === 'word'" class="header-intro-by">
                     <span ng-bind="content.verb"></span>
             <span class="author-name" ng-repeat="person in content.people">
-                <a href="" ng-bind="person"></a><span ng-hide="$last"> & </span><span ng-show="$last && content.displayAjabShaharTeam">,</span>
+                <a href="{{content.links[$index].link}}" ng-bind="person"></a><span ng-hide="$last"> & </span><span ng-show="$last && content.displayAjabShaharTeam">,</span>
             </span>
                     <span ng-show="content.displayAjabShaharTeam"> Ajab Shahar Team</span>
                 </div>
@@ -34,27 +34,42 @@
                 <span class="header-text link" bind-dynamic-html="content.info"></span>
 
                 <div class="text-content link">
-                    <div id="text-section" ng-repeat="textSection in content.textSections" >
-                        <div bind-dynamic-html="textSection.text" ng-class="{couplet: textSection.type === 'couplet'}"></div>
-                        <div ng-show="textSection.poet"><a href="" ng-bind="textSection.poet"></a></div>
-                    </div>
+                        <div id="text-section" bind-dynamic-html="content.textSections"></div>
                 </div>
                 <div class="text-share-options" ng-click="toggleShare()">
                     <a href="javascript:void(0)" class="share" ng-class="{'active': sharingVisible}"></a>
                 </div>
 
                 <!--sharing-->
-                <div class='shareItemsDropDown' ng-show="sharingVisible">
-                    <ul>
-                        <li><a href='http://www.facebook.com/share.php?u={{createUrl(content.shareUrl)}}' target="_blank">Share on Facebook</a>
+                <div class='toggleBySlide shareItemsDropDown' ng-show="sharingVisible">
+                    <ul class='shareItems'>
+                        <li>
+                            <a class="icon"
+                               href='http://www.facebook.com/share.php?u={{createUrl(content.shareUrl)}}'
+                               target="_blank">
+                                <i class="fa fa-facebook"></i>
+                            </a>
                         </li>
-                        <li><a class="twitter-share-button"
-                               href="https://twitter.com/intent/tweet?text={{createUrl(content.shareUrl)}}"
-                               target="_blank">Share on twitter</a></li>
-                        <li><a href="//pinterest.com/pin/create/link/?url={{createUrl(content.shareUrl)}}&media={{createURLForImage(content.image)}}" target="_blank">Share on
-                            Pinterest</a>
+                        <li>
+                            <a class="twitter-share-button icon"
+                               href="https://twitter.com/intent/tweet?text={{content.shareTitle + createUrl(content.shareUrl)}}"
+                               target="_blank">
+                                <i class="fa fa-twitter"></i>
+                            </a>
                         </li>
-                        <li><a href="https://plus.google.com/share?url={{createUrl(content.shareUrl)}}" target="_blank">Share on Google+</a>
+                        <li>
+                            <a class="icon"
+                               href="https://plus.google.com/share?url={{createUrl(content.shareUrl)}}"
+                               target="_blank">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="icon"
+                               href="//pinterest.com/pin/create/link/?url={{createUrl(content.shareUrl)}}&media={{createURLForImage(content.image)}}"
+                               target="_blank">
+                                <i class="fa fa-pinterest"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -121,15 +136,33 @@
                 <!--sharing-->
                 <div class='toggleBySlide shareItemsDropDown' ng-show="sharingVisible">
                     <ul class='shareItems'>
-                        <li><a href='http://www.facebook.com/share.php?u={{createUrl(content.shareUrl)}}' target="_blank">Share on Facebook</a>
+                        <li>
+                            <a class="icon"
+                               href='http://www.facebook.com/share.php?u={{createUrl(content.shareUrl)}}'
+                               target="_blank">
+                                <i class="fa fa-facebook"></i>
+                            </a>
                         </li>
-                        <li><a class="twitter-share-button"
-                               href="https://twitter.com/intent/tweet?text={{createUrl(content.shareUrl)}}"
-                               target="_blank">Share on Twitter</a></li>
-                        <li><a href="//pinterest.com/pin/create/link/?url={{createUrl(content.shareUrl)}}&media={{createURLForImage(content.image)}}" target="_blank">Share on
-                            Pinterest</a>
+                        <li>
+                            <a class="twitter-share-button icon"
+                               href="https://twitter.com/intent/tweet?text={{content.shareTitle + createUrl(content.shareUrl)}}"
+                               target="_blank">
+                                <i class="fa fa-twitter"></i>
+                            </a>
                         </li>
-                        <li><a href="https://plus.google.com/share?url={{createUrl(content.shareUrl)}}" target="_blank">Share on Google+</a>
+                        <li>
+                            <a class="icon"
+                               href="https://plus.google.com/share?url={{createUrl(content.shareUrl)}}"
+                               target="_blank">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="icon"
+                               href="//pinterest.com/pin/create/link/?url={{createUrl(content.shareUrl)}}&media={{createURLForImage(content.image)}}"
+                               target="_blank">
+                                <i class="fa fa-pinterest"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>

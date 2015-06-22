@@ -136,6 +136,7 @@ AjabShahar.DetailsObject = function (content, type) {
         self.about = song.about;
         self.links = getRelatedLinksFromSong(song);
         self.shareUrl = "/songs/?id=" + self.id;
+        self.shareTitle = song.songTitle.englishTransliteration + " \n";
     };
 
     var buildFromWord = function (word) {
@@ -152,13 +153,7 @@ AjabShahar.DetailsObject = function (content, type) {
             }
             if (type === 'text') {
                 if (!_.isEmpty(word.wordIntroductions)) {
-                    return word.wordIntroductions.map(function (wordIntro) {
-                        return {
-                            text: wordIntro.wordIntroEnglish,
-                            type: wordIntro.contentType,
-                            poet: wordIntro.poet?wordIntro.poet.name:""
-                        }
-                    });
+                    return word.wordIntroductions[0].wordIntroEnglish;
                 }
             }
             return null;
@@ -176,16 +171,13 @@ AjabShahar.DetailsObject = function (content, type) {
         self.info = "";
         self.image = word.thumbnailUrl;
         self.shareUrl = "/words/details/" + self.id;
+        self.shareTitle = word.wordTransliteration + " \n";
     };
 
     var buildFromReflection = function (reflection) {
         var getReflectionTranscripts = function (reflection) {
             if (!_.isEmpty(reflection.reflectionTranscripts)) {
-                return reflection.reflectionTranscripts.map(function (transcript) {
-                    return {
-                        text: transcript.englishTranscript
-                    }
-                });
+                return reflection.reflectionTranscripts[0].englishTranscript;
             }
             return null;
         };
@@ -202,6 +194,7 @@ AjabShahar.DetailsObject = function (content, type) {
         self.excerpt = reflection.reflectionExcerpt;
         self.image = reflection.thumbnailURL;
         self.shareUrl = "/reflections/details/" + self.id;
+        self.shareTitle = reflection.title + " \n";
     };
 
     if (type === 'song') {
