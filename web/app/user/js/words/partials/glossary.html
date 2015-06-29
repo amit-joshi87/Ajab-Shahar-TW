@@ -1,5 +1,5 @@
 
-<div class="ajab_container" id="glossary_page">
+<div class="ajab_container" id="glossary_page" ng-random-class ng-classes="classes">
     <div class="ajab-wrapper">
         <div class="page-header">
             <div class="logo-container">
@@ -26,11 +26,11 @@
                                    <span ng-if="!term.isRootWord" ng-cloak>
                                        {{term.wordTransliteration}}
                                    </span>
-                        <span class="related" ng-cloak>(<span
-                                class="hindi">{{term.wordOriginal}}</span>, {{term.diacritic}})</span>
+                        <span class="related" ng-cloak ng-show="term.wordOriginal || term.diacritic">(<span
+                                class="hindi">{{term.wordOriginal}}</span><span ng-show="term.wordOriginal && term.diacritic">, </span>{{term.diacritic}})</span>
                     </dt>
                     <dd class="word-meaning">
-                        <div bind-dynamic-html='term.meaning'></div>
+                        <div class="original-html-size" bind-dynamic-html='term.meaning'></div>
                     </dd>
                 </dl>
             </div>

@@ -3,12 +3,12 @@ angular.module("word").
 
         var carouselOpen = true;
 
-        $scope.containsReflections = function() {
-            return $scope.reflectionCount()>0;
+        $scope.containsMoreThanOneItem = function() {
+            return $scope.carouselItems.length > 1;
         };
 
         $scope.shouldShowCarousel = function(){
-            return  carouselOpen && $scope.containsReflections()
+            return  carouselOpen && $scope.containsMoreThanOneItem();
         };
 
         $scope.toggleCarousel = function(){
@@ -48,9 +48,9 @@ angular.module("word").
             wordService.getWord($scope.wordId).success(function(response){
                 $scope.wordDetails = response;
                 $scope.associatedWords = [].concat($scope.wordDetails.synonyms).concat($scope.wordDetails.relatedWords);
-                $scope.containsWordIntro =  (!_.isEmpty($scope.wordDetails)  && !_.isEmpty($scope.wordDetails.wordIntroductions));
+                $scope.containsWordIntro =  (!_.isEmpty($scope.wordDetails)  && !_.isEmpty($scope.wordDetails.wordIntroduction) && !_.isEmpty($scope.wordDetails.wordIntroduction.wordIntroEnglish));
 
-                if(!_.isEmpty($scope.wordDetails.wordIntroductions )){
+                if(!_.isEmpty($scope.wordDetails.wordIntroduction ) && !_.isEmpty($scope.wordDetails.wordIntroduction.wordIntroEnglish)){
                     $scope.carouselItems.push(new AjabShahar.ThumbnailObject($scope.wordDetails,"word"))
                 }
                 $scope.carouselItems = $scope.carouselItems.concat(

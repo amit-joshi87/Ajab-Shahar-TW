@@ -25,7 +25,7 @@ AjabShahar.DetailsObject = function (content, type) {
             var speakerLink = pluckPropertyFrom(song,"singers","map",function(singer){
                 return{
                     name: singer.name,
-                    description: "SINGER",
+                    description: singer.name.indexOf("&") != -1 || singer.name.indexOf(",") != -1 ? "SINGERS" : "SINGER",
                     link:"/people/all#"+singer.id
                 }
             });
@@ -49,7 +49,20 @@ AjabShahar.DetailsObject = function (content, type) {
                 }
             });
 
-            relatedLinks = relatedLinks.concat(speakerLink).concat(relatedPeople).concat(relatedWords);
+            //relatedLinks = relatedLinks.concat(speakerLink).concat(relatedPeople).concat(relatedWords);
+
+            if(relatedPeople) {
+                relatedLinks = relatedLinks.concat(relatedPeople);
+            }
+
+            if(speakerLink) {
+                relatedLinks = relatedLinks.concat(speakerLink);
+            }
+
+            if(relatedWords){
+                relatedLinks = relatedLinks.concat(relatedWords);
+            }
+
         }
         return relatedLinks;
 
@@ -104,7 +117,18 @@ AjabShahar.DetailsObject = function (content, type) {
                     }
             });
 
-            relatedLinks = relatedLinks.concat(speakerLink).concat(relatedPeople).concat(relatedWords).concat(relatedSongs);
+            if(speakerLink) {
+                relatedLinks = relatedLinks.concat(speakerLink);
+            }
+            if(relatedPeople) {
+                relatedLinks = relatedLinks.concat(relatedPeople);
+            }
+            if(relatedWords){
+                relatedLinks = relatedLinks.concat(relatedWords);
+            }
+            if(relatedSongs){
+                relatedLinks = relatedLinks.concat(relatedSongs);
+            }
         }
         return relatedLinks;
     };
@@ -152,8 +176,8 @@ AjabShahar.DetailsObject = function (content, type) {
                 }
             }
             if (type === 'text') {
-                if (!_.isEmpty(word.wordIntroductions)) {
-                    return word.wordIntroductions[0].wordIntroEnglish;
+                if (!_.isEmpty(word.wordIntroduction)) {
+                    return word.wordIntroduction.wordIntroEnglish;
                 }
             }
             return null;

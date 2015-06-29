@@ -8,6 +8,9 @@
       margin-bottom: 3px;
       font-size: $large;
       font-weight: 100;
+      &:hover {
+        color: $dark-grey;
+      }
     }
 
     .en-title {
@@ -15,6 +18,7 @@
       font-style: italic;
       margin-bottom: 3px;
       font-size: $medium-large;
+      line-height: 19px;
     }
     .singers {
       color: $dark-grey;

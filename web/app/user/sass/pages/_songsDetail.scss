@@ -48,9 +48,12 @@ body.songs-details {
 
   #poem_container {
 /*    text-align: center;*/
-    padding: 10px 0 50px;
+    margin-top: -45px;
     font-weight: 300;
     line-height: 27px;
+    h1,h2,h3,h4,h5,h6 {
+        color: $grey;
+    }
 
     .song-heading {
       color: $grey;
@@ -65,7 +68,7 @@ body.songs-details {
     .poet-details {
       color: $grey;
       font-size: $medium;
-      padding-bottom: 70px;
+      padding-bottom: 20px;
       position: relative;
       top: -10px;
       a {
@@ -78,7 +81,7 @@ body.songs-details {
     }
 
     .initial-couplets {
-      color: #808080;
+      color: $light-grey;
       font-style: italic;
     }
 
@@ -87,6 +90,8 @@ body.songs-details {
       color: $grey;
       font-family: 'Merriweather';
       line-height: 21px;
+      text-align: left;
+      padding-bottom: 30px
     }
 
     .refrain{
@@ -103,7 +108,7 @@ body.songs-details {
       }
       .poet {
         font-size: $medium-dev;
-        padding-bottom: 70px;
+        padding-bottom: 20px;
         position: relative;
         top: -10px;
         a {
@@ -113,13 +118,13 @@ body.songs-details {
             }
         }
       }
-      .initial-couplets {
-        font-size: 15px;
-      }
+
       .lyrics {
         font-size: $medium-dev;
-        line-height: 21px;
+        line-height: 24px;
         color: $grey;
+        text-align: left;
+        padding-bottom: 30px
       }
     }
 

@@ -1,4 +1,4 @@
-angular.module("people").directive("ngRandomClass", function () {
+angular.module("utilities").directive("ngRandomClass", function () {
     return {
         restrict: 'EA',
         replace: false,
