@@ -2,6 +2,9 @@ package org.ajabshahar.platform.resources;
 
 import com.google.gson.Gson;
 import io.dropwizard.hibernate.UnitOfWork;
+import org.ajabshahar.api.CategoryRepresentation;
+import org.ajabshahar.api.CategoryRepresentationFactory;
+import org.ajabshahar.core.Categories;
 import org.ajabshahar.platform.daos.CategoryDAO;
 import org.ajabshahar.platform.models.Category;
 
@@ -14,9 +17,13 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class CategoryResource {
     private final CategoryDAO categoryDAO;
+    private final CategoryRepresentationFactory categoryRepresentationFactory;
+    private final Categories categories;
 
-    public CategoryResource(CategoryDAO categoryDAO) {
+    public CategoryResource(CategoryDAO categoryDAO,CategoryRepresentationFactory categoryRepresentationFactory,Categories categories) {
         this.categoryDAO = categoryDAO;
+        this.categoryRepresentationFactory = categoryRepresentationFactory;
+        this.categories = categories;
     }
 
     @GET
@@ -30,7 +37,7 @@ public class CategoryResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createSplashScreen(String jsonSplashScreenOptions) {
         Category category = new Gson().fromJson(jsonSplashScreenOptions, Category.class);
-        categoryDAO.create(category);
+        categoryDAO.saveOrUpdate(category);
         return Response.status(200).entity(category.toString()).build();
     }
 
@@ -82,5 +89,16 @@ public class CategoryResource {
     @Path("/person")
     public Set<Category> listAllPersonCategory() {
         return categoryDAO.findAllPersonCategory();
+    }
+
+    @POST
+    @UnitOfWork
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/create")
+    public Response createCategory(String jsonCategory) {
+        Category category = categoryRepresentationFactory.create(jsonCategory);
+        category =  categories.create(category);
+        CategoryRepresentation categoryRepresentation = categoryRepresentationFactory.createCategoryRepresentation(category);
+        return Response.status(200).entity(categoryRepresentation).build();
     }
 }

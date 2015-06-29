@@ -121,6 +121,7 @@ public class PlatformApplication extends Application<PlatformConfiguration> {
         picoContainer.addComponent(UserDAO.class);
         picoContainer.addComponent(GatheringDAO.class);
 
+        picoContainer.addComponent(Categories.class);
         picoContainer.addComponent(Songs.class);
         picoContainer.addComponent(Lyrics.class);
         picoContainer.addComponent(Couplets.class);
@@ -130,6 +131,7 @@ public class PlatformApplication extends Application<PlatformConfiguration> {
         picoContainer.addComponent(SongsRepresentationFactory.class);
         picoContainer.addComponent(PersonRepresentationFactory.class);
         picoContainer.addComponent(CoupletsRepresentationFactory.class);
+        picoContainer.addComponent(CategoryRepresentationFactory.class);
 
         WordRepresentationFactory wordRepresentationFactory = new WordRepresentationFactory();
         ReflectionRepresentationFactory reflectionRepresentationFactory = new ReflectionRepresentationFactory();
