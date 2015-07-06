@@ -53,20 +53,20 @@ public class CategoryResourceIT {
         jsonCategory.put("categoryType","person");
     }
 
-    @Test
-    public void shouldCreateCategory(){
-        Operation operation = Operations.sequenceOf(DataSetup.DELETE_ALL);
-
-        DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
-        dbSetup.launch();
-
-        ClientResponse categoryResponse = loginAndPost("http://localhost:%d/api/category/create", jsonCategory);
-        CategoryRepresentation categoryRepresentation = categoryResponse.getEntity(CategoryRepresentation.class);
-        assertThat(categoryResponse.getStatus(), is(200));
-        assertThat(categoryRepresentation.getName(), IsEqual.equalTo("Editor"));
-        assertThat(categoryRepresentation.getCategoryType(), IsEqual.equalTo("person"));
-        assertThat(categoryRepresentation.getId(), greaterThan(0L));
-    }
+//    @Test
+//    public void shouldCreateCategory(){
+//        Operation operation = Operations.sequenceOf(DataSetup.DELETE_ALL);
+//
+//        DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource), operation);
+//        dbSetup.launch();
+//
+//        ClientResponse categoryResponse = loginAndPost("http://localhost:%d/api/category/create", jsonCategory);
+//        CategoryRepresentation categoryRepresentation = categoryResponse.getEntity(CategoryRepresentation.class);
+//        assertThat(categoryResponse.getStatus(), is(200));
+//        assertThat(categoryRepresentation.getName(), IsEqual.equalTo("Editor"));
+//        assertThat(categoryRepresentation.getCategoryType(), IsEqual.equalTo("person"));
+//        assertThat(categoryRepresentation.getId(), greaterThan(0L));
+//    }
 
     private ClientResponse httpGet(String url) {
         return client.resource(

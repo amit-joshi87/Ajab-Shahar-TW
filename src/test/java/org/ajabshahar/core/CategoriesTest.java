@@ -39,7 +39,8 @@ public class CategoriesTest {
 
     @Test
     public void shouldCreateCategory(){
-        when(categoryRepository.saveOrUpdate(any(Category.class))).thenReturn(category);
+//        when(categoryRepository.saveOrUpdate(any(Category.class))).thenReturn(category);
+        when(categoryRepository.create(any(Category.class))).thenReturn(category);
 
         Category categoryExpected = categories.create(category);
 

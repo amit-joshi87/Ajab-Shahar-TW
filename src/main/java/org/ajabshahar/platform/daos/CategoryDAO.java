@@ -14,7 +14,7 @@ public class CategoryDAO extends AbstractDAO<Category> {
         super(sessionFactory);
     }
 
-    public Category saveOrUpdate(Category category) {
+    public Category create(Category category) {
         return persist(category);
     }
 

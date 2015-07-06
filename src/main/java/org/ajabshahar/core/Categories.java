@@ -14,6 +14,7 @@ public class Categories {
     }
 
     public Category create(Category category) {
-        return categoryDAO.saveOrUpdate(category);
+//        return categoryDAO.saveOrUpdate(category);
+        return categoryDAO.create(category);
     }
 }
