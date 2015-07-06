@@ -74,7 +74,7 @@ public class PlatformApplication extends Application<PlatformConfiguration> {
     public void run(PlatformConfiguration configuration, Environment environment) throws Exception {
         final int _30_MINUTES = 30 * 60;
 
-        DefaultPicoContainer picoContainer = addToPicoContainer();
+        DefaultPicoContainer picoContainer = addToPicoContainer(configuration);
 
         TemplateHealthCheck templateHealthCheck = new TemplateHealthCheck("");
 
@@ -104,7 +104,7 @@ public class PlatformApplication extends Application<PlatformConfiguration> {
         environment.healthChecks().register("template", templateHealthCheck);
     }
 
-    private DefaultPicoContainer addToPicoContainer() {
+    private DefaultPicoContainer addToPicoContainer(PlatformConfiguration configuration) {
         DefaultPicoContainer picoContainer = new DefaultPicoContainer();
 
         picoContainer.addComponent(hibernate.getSessionFactory());
@@ -121,7 +121,6 @@ public class PlatformApplication extends Application<PlatformConfiguration> {
         picoContainer.addComponent(UserDAO.class);
         picoContainer.addComponent(GatheringDAO.class);
 
-        picoContainer.addComponent(Categories.class);
         picoContainer.addComponent(Songs.class);
         picoContainer.addComponent(Lyrics.class);
         picoContainer.addComponent(Couplets.class);
@@ -131,7 +130,6 @@ public class PlatformApplication extends Application<PlatformConfiguration> {
         picoContainer.addComponent(SongsRepresentationFactory.class);
         picoContainer.addComponent(PersonRepresentationFactory.class);
         picoContainer.addComponent(CoupletsRepresentationFactory.class);
-        picoContainer.addComponent(CategoryRepresentationFactory.class);
 
         WordRepresentationFactory wordRepresentationFactory = new WordRepresentationFactory();
         ReflectionRepresentationFactory reflectionRepresentationFactory = new ReflectionRepresentationFactory();
@@ -152,8 +150,11 @@ public class PlatformApplication extends Application<PlatformConfiguration> {
         picoContainer.addComponent(GatheringResource.class);
         picoContainer.addComponent(LoginController.class);
         picoContainer.addComponent(LogoutController.class);
-        picoContainer.addComponent(PasswordAuthenticator.class);
         picoContainer.addComponent(SessionAuthenticatorFilter.class);
+
+        String salt = configuration.getSalt();
+        PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticator(picoContainer.getComponent(Users.class),salt);
+        picoContainer.addComponent(passwordAuthenticator);
 
         return picoContainer;
     }

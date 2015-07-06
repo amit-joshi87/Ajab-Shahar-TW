@@ -103,8 +103,8 @@ angular.module("reflection").controller('allReflectionsController', ['$scope', '
         return "shift" + (index + 1);
     };
 
-    $scope.navigateToDetailPage = function (id) {
-        $window.location.href = 'details/'+id;
+    $scope.navigateToDetailPage = function (reflection) {
+        $window.location.href = AjabShahar.user.ContentUrlCreator.getUrl(reflection,"reflection");
     };
 
     $scope.init = function () {

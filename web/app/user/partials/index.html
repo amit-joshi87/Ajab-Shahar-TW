@@ -2,6 +2,7 @@
 <html lang="en" ng-app="introductionApp">
 <head>
     <meta charset="utf-8">
+    <meta name="fragment" content="!">
     <title>Welcome</title>
 
     <link rel="stylesheet"
@@ -21,10 +22,11 @@
         ga('create', 'UA-63286140-1', 'auto');
         ga('send', 'pageview');
     </script>
+    <base href="/" />
 </head>
 <body ng-controller="splashScreenController" ng-mouseover="showEnterButton()">
 <div class="fadeIn slide_bottom" ng-show="expand">
-    <a class='enter' title='Enter English Site' href='/featuredContent'></a>
+    <a class='enter' title='Enter English Site' href='/featuredContent' target="_self"></a>
 </div>
 <div ng-view></div>
 

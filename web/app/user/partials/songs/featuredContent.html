@@ -2,6 +2,7 @@
 <html lang="en" ng-app="featuredContentApp" ng-controller="songsFeaturedContentController" class="{{selectedOverview().selected ? 'disableOuterScrollbar' : ''}}">
 <head>
     <meta charset="utf-8">
+    <meta name="fragment" content="!">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Songs landing Page</title>
     <link rel="stylesheet"
@@ -51,13 +52,13 @@
                 <div class='homepage-content'>
                     <div class="page-header">
                         <div class="logo-container">
-                            <a href="/songs/all">songs</a>
+                            <a href="javascript:void(0);">songs</a>
 
                             <div class="sub-info">
                                     <span class="number" ng-cloak>
                                         {{thumbnailsCount()}} of {{publishedSongsCount}}
                                     </span>
-                                <a href="/songs/all" class="all-link">
+                                <a href="/songs/all" class="all-link" target="_self" >
                                     see all
                                 </a>
                             </div>
@@ -114,6 +115,8 @@
 <script type="text/javascript" src="/user/js/common/directives/soundCloud/soundcloud_player.js"></script>
 <script type="text/javascript" src="/user/js/common/directives/youtube/youtube_player.js"></script>
 <script type="text/javascript" src="/user/js/common/directives/songs/songOverview.js"></script>
+
+<script type="text/javascript" src="/user/js/common/utilities/ContentUrlCreator.js"></script>
 
 <script type="text/javascript" src="/user/js/common/config/resourceUrlWhiteList.js"></script>
 <script type="text/javascript" src="/user/js/common/modules/headerModule.js"></script>
